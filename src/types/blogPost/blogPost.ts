@@ -3,5 +3,4 @@ export interface BlogPost {
   title: string;
   content: string;
   date: Date;
-  wordCount: number;
 }

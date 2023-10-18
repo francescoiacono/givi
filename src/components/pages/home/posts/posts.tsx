@@ -28,10 +28,11 @@ export const Posts = () => {
     loadPosts();
   }, []);
 
+  if (error) return <p className='text-red-600 font-bold'>{error}</p>;
+
   return (
     <>
       <h2>All Posts</h2>
-
       {loading ? (
         <p>Loading...</p>
       ) : (

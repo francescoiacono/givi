@@ -14,9 +14,9 @@ h2 {
 
 h3 {
   @apply font-medium;
-  @apply text-xl;
+  @apply text-lg;
 }
 
 h4 {
-  @apply text-lg;
+  @apply font-medium;
 }

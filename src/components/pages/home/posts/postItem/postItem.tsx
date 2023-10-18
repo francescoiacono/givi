@@ -1,3 +1,4 @@
+import { FlexCol, FlexRow } from '@/components/layouts';
 import { BlogPost } from '@/types';
 import parse from 'html-react-parser';
 import Link from 'next/link';
@@ -10,11 +11,14 @@ export const PostItem: React.FC<PostItemProps> = ({ blogPost }) => {
   const { title, date, content, id } = blogPost;
 
   return (
-    <Link href={`posts/${id}}`} className='flex flex-col'>
-      <h3>{title}</h3>
-      <div className='flex gap-2'>
-        <p>{new Date(date).toLocaleDateString()}</p> · <p>{content}</p>
-      </div>
+    <Link href={`post/${id}`}>
+      <FlexCol>
+        <h3>{title}</h3>
+        <FlexRow>
+          <p>{new Date(date).toLocaleDateString()}</p> <span>-</span>{' '}
+          <p>{content}</p>
+        </FlexRow>
+      </FlexCol>
     </Link>
   );
 };
