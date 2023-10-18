@@ -1,12 +1,12 @@
 import { NextRequest } from 'next/server';
 import { BlogPost } from '@/types';
-import { saveResource } from '@/firebase/actions';
+import { saveResource, getAllResources } from '@/firebase/actions';
 import {
   errorRequestHandler,
   successRequestHandler,
 } from '@/utils/requestHandlers';
 
-//TODO: Add validation to POST request
+//TODO: Add validation to requests
 
 export async function POST(request: NextRequest) {
   try {
@@ -24,5 +24,17 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     // Return an error response
     return errorRequestHandler(500, 'Failed to add blog post');
+  }
+}
+
+export async function GET(request: NextRequest) {
+  try {
+    const response = await getAllResources<BlogPost>('posts/');
+    if (!response) {
+      return errorRequestHandler(404, 'No blog posts found');
+    }
+    return successRequestHandler<BlogPost[]>(response, 200);
+  } catch (error) {
+    return errorRequestHandler(500, 'Failed to get blog post');
   }
 }
