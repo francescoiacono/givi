@@ -1,5 +1,5 @@
 import { NextRequest } from 'next/server';
-import { getResource } from '@/firebase/actions';
+import { deleteResource, getResource } from '@/firebase/actions';
 import { BlogPost } from '@/types';
 import {
   errorRequestHandler,
@@ -11,6 +11,7 @@ interface Params {
     id: string;
   };
 }
+
 export const GET = async (_req: NextRequest, { params }: Params) => {
   try {
     // Get id from params
@@ -29,5 +30,26 @@ export const GET = async (_req: NextRequest, { params }: Params) => {
   } catch (error) {
     // Return an error response
     return errorRequestHandler(500, 'Failed to retrieve blog post');
+  }
+};
+
+export const DELETE = async (_req: NextRequest, { params }: Params) => {
+  try {
+    // Get id from params
+    const { id } = params;
+
+    // Delete blog post from DB
+    const isDeleted = await deleteResource('posts', id);
+
+    if (isDeleted) {
+      // Success
+      return successRequestHandler('Blog post deleted', 200);
+    } else {
+      // 404 Response
+      return errorRequestHandler(404, 'Blog post not found');
+    }
+  } catch (error) {
+    // 500 Response (server)
+    return errorRequestHandler(500, 'Failed to delete blog post');
   }
 };
