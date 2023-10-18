@@ -19,5 +19,14 @@ export const useResource = () => {
     }
   };
 
-  return { loadResource, saveResource };
+  const deleteResource = async (url: string) => {
+    try {
+      const response = await axios.delete(url);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  return { loadResource, saveResource, deleteResource };
 };

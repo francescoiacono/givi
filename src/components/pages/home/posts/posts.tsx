@@ -35,8 +35,10 @@ export const Posts = () => {
       <h2>All Posts</h2>
       {loading ? (
         <p>Loading...</p>
-      ) : (
+      ) : posts ? (
         posts.map((post) => <PostItem key={post.id} blogPost={post} />)
+      ) : (
+        <p className='text-gray-300 italic'>No Posts</p>
       )}
     </>
   );

@@ -1,6 +1,7 @@
+import { useResource } from '@/components/hooks';
 import { FlexCol, FlexRow } from '@/components/layouts';
+import { Button } from '@/components/ui';
 import { BlogPost } from '@/types';
-import parse from 'html-react-parser';
 import Link from 'next/link';
 
 interface PostItemProps {
@@ -10,15 +11,27 @@ interface PostItemProps {
 export const PostItem: React.FC<PostItemProps> = ({ blogPost }) => {
   const { title, date, content, id } = blogPost;
 
+  const { deleteResource } = useResource();
+
   return (
-    <Link href={`post/${id}`}>
-      <FlexCol>
-        <h3>{title}</h3>
-        <FlexRow>
-          <p>{new Date(date).toLocaleDateString()}</p> <span>-</span>{' '}
-          <p>{content}</p>
-        </FlexRow>
-      </FlexCol>
-    </Link>
+    <FlexRow>
+      <Link href={`post/${id}`}>
+        <FlexCol>
+          <h3>{title}</h3>
+          <FlexRow>
+            <p>{new Date(date).toLocaleDateString()}</p> <span>-</span>{' '}
+            <p>{content}</p>
+          </FlexRow>
+        </FlexCol>
+      </Link>
+      <Button
+        onClick={async () => {
+          const res = await deleteResource(`/api/post/${id}`);
+          if (res) window.location.reload();
+        }}
+      >
+        Delete
+      </Button>
+    </FlexRow>
   );
 };
