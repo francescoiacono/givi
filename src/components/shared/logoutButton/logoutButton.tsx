@@ -1,6 +1,7 @@
 'use client';
 
 import { useAuth } from '@/components/hooks';
+import { Button } from '@/components/ui';
 import { useState } from 'react';
 
 export const LogoutButton = () => {
@@ -23,21 +24,15 @@ export const LogoutButton = () => {
   };
 
   return !loading ? (
-    <div className='flex items-center gap-4 w-full justify-end p-4'>
+    <>
       {user ? (
         <>
           <p>Hey, {user.email}! </p>
-          <button
-            className='p-1 px-4 border border-gray-300 rounded-md'
-            onClick={handleLogout}
-          >
-            Log out
-          </button>
+          <Button onClick={handleLogout}>Log out</Button>
         </>
-      ) : (
-        <p>User Not Found</p>
-      )}
-    </div>
+      ) : null}
+      {error && <p className='text-red-500'>{error}</p>}
+    </>
   ) : (
     <p>Loading...</p>
   );

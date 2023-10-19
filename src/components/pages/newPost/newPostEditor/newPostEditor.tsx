@@ -41,7 +41,7 @@ export const NewPostEditor = () => {
           onChange={(e) => setTitle(e.target.value)}
         />
         <TinyMCEEditor />
-        <Button>Save Post</Button>
+        <Button type='submit'>Save Post</Button>
       </FlexCol>
     </form>
   );

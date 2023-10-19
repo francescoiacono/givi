@@ -5,6 +5,7 @@ import { CenteredLayout } from '@/components/layouts';
 import { Button, Input } from '@/components/ui';
 import { isValidEmail, isValidPassword } from '@/utils';
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 export const AdminLogin = () => {
   const { logIn } = useAuth();
@@ -12,6 +13,7 @@ export const AdminLogin = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [password, setPassword] = useState('');
+  const router = useRouter();
 
   useEffect(() => {
     return () => {
@@ -36,6 +38,7 @@ export const AdminLogin = () => {
     try {
       await logIn(email, password);
       setLoading(false);
+      router.push('/');
     } catch (err) {
       setError(
         err instanceof Error ? err.message : 'An error occurred during login.'
