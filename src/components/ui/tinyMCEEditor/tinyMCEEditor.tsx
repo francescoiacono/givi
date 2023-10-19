@@ -19,7 +19,7 @@ export const TinyMCEEditor = () => {
     <Editor
       apiKey={process.env.TINY_API_KEY}
       onInit={(evt, editor) => setEditorInstance(editor)}
-      initialValue='<p>This is the initial content of the editor.</p>'
+      initialValue=''
       init={{
         min_height: 500,
         menubar: false,
@@ -34,12 +34,10 @@ export const TinyMCEEditor = () => {
           'anchor',
           'searchreplace',
           'visualblocks',
-          'code',
           'fullscreen',
           'insertdatetime',
           'media',
           'table',
-          'code',
           'wordcount',
         ],
         toolbar:
