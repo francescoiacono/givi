@@ -17,7 +17,7 @@ export const TinyMCEEditor = () => {
 
   return isMounted ? (
     <Editor
-      apiKey={process.env.TINY_API_KEY}
+      apiKey={process.env.NEXT_PUBLIC_TINY_API_KEY}
       onInit={(evt, editor) => setEditorInstance(editor)}
       initialValue=''
       init={{
