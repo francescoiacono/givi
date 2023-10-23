@@ -2,18 +2,21 @@
 
 import { useAuth } from '@/components/hooks';
 import { Button, ClientErrorMessage } from '@/components/ui';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 export const LogoutButton = () => {
   const { user, logOut } = useAuth();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const router = useRouter();
 
   const handleLogout = async () => {
     setLoading(true);
     setError('');
     try {
       await logOut();
+      router.push('/');
     } catch (err) {
       setError(
         err instanceof Error ? err.message : 'An error occurred during log out.'

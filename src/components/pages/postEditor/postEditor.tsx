@@ -18,6 +18,9 @@ interface PostEditor {
   id?: string;
 }
 
+const MAX_TITLE_LENGTH = 80;
+const MAX_SUMMARY_LENGTH = 150;
+
 export const PostEditor: React.FC<PostEditor> = ({ id }) => {
   const [title, setTitle] = useState('');
   const [summary, setSummary] = useState<string>('');
@@ -58,6 +61,20 @@ export const PostEditor: React.FC<PostEditor> = ({ id }) => {
 
   const submitPost = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (!title.trim()) return setError('A title is required.');
+    if (title.length > MAX_TITLE_LENGTH) {
+      return setError(
+        `Title must be less or equal to ${MAX_TITLE_LENGTH}  characters`
+      );
+    }
+
+    if (summary.length > MAX_SUMMARY_LENGTH) {
+      return setError(
+        `Summary must be less or equal to ${MAX_SUMMARY_LENGTH} characters`
+      );
+    }
+
     try {
       // If editor is ready, get the content and save it in DB
       if (editorRef.current && editorReady) {
@@ -89,10 +106,9 @@ export const PostEditor: React.FC<PostEditor> = ({ id }) => {
     }
   };
 
-  if (error) return <ClientErrorMessage>{error}</ClientErrorMessage>;
-
-  return (
+  return user ? (
     <main>
+      {error && <ClientErrorMessage>{error}</ClientErrorMessage>}
       <form onSubmit={submitPost}>
         <FlexCol>
           <h1>New Post</h1>
@@ -102,6 +118,7 @@ export const PostEditor: React.FC<PostEditor> = ({ id }) => {
             id='title'
             withLabel='Title'
             value={title}
+            maxLength={MAX_TITLE_LENGTH}
             onChange={(e) => setTitle(e.target.value)}
           />
           <Input
@@ -110,6 +127,7 @@ export const PostEditor: React.FC<PostEditor> = ({ id }) => {
             id='summary'
             withLabel='Summary'
             value={summary}
+            maxLength={MAX_SUMMARY_LENGTH}
             onChange={(e) => setSummary(e.target.value)}
           />
           <TinyMCEEditor />
@@ -117,5 +135,9 @@ export const PostEditor: React.FC<PostEditor> = ({ id }) => {
         </FlexCol>
       </form>
     </main>
+  ) : (
+    <ClientErrorMessage>
+      You are not authenticated. Please sign in and try again.
+    </ClientErrorMessage>
   );
 };
