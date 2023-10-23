@@ -1,7 +1,7 @@
 'use client';
 
 import { useAuth } from '@/components/hooks';
-import { Button } from '@/components/ui';
+import { Button, ClientErrorMessage } from '@/components/ui';
 import { useState } from 'react';
 
 export const LogoutButton = () => {
@@ -31,7 +31,7 @@ export const LogoutButton = () => {
           <Button onClick={handleLogout}>Log out</Button>
         </>
       ) : null}
-      {error && <p className='text-red-500'>{error}</p>}
+      {error && <ClientErrorMessage>{error}</ClientErrorMessage>}
     </>
   ) : (
     <p>Loading...</p>

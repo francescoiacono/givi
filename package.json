@@ -13,6 +13,7 @@
     "@types/tinymce": "^4.6.6",
     "axios": "^1.5.1",
     "firebase": "^10.5.0",
+    "firebase-admin": "^11.11.0",
     "html-react-parser": "^4.2.5",
     "next": "13.5.4",
     "next-intl": "^2.20.2",

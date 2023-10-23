@@ -2,7 +2,7 @@
 
 import { useAuth } from '@/components/hooks';
 import { CenteredLayout } from '@/components/layouts';
-import { Button, Input } from '@/components/ui';
+import { Button, ClientErrorMessage, Input } from '@/components/ui';
 import { isValidEmail, isValidPassword } from '@/utils';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -79,7 +79,11 @@ export const AdminLogin = () => {
           Log in
         </Button>
       </form>
-      {error && <p className='text-red-500 max-w-[20rem] py-4'>{error}</p>}
+      {error && (
+        <ClientErrorMessage className=' max-w-[20rem] py-4'>
+          {error}
+        </ClientErrorMessage>
+      )}
     </CenteredLayout>
   ) : (
     <p>Loading...</p>

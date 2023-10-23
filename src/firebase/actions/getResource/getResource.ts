@@ -1,14 +1,20 @@
-import { db } from '@/firebase/database';
-import { get, ref } from 'firebase/database';
+import { adminApp } from '@/firebase/admin';
 
 export const getResource = async <T>(basePath: string, resourceId: string) => {
-  const docRef = ref(db, `${basePath}/${resourceId}`);
-  const snapshot = await get(docRef);
+  try {
+    const db = adminApp().database();
+    const docRef = db.ref(`${basePath}/${resourceId}`);
 
-  if (snapshot.exists()) {
-    const data: T = snapshot.val();
+    let data: T | null = null;
+    const snapshot = await docRef.get();
+
+    if (snapshot.exists()) {
+      data = snapshot.val();
+    }
+
     return data;
-  } else {
-    return null;
+  } catch (error) {
+    console.error('Error getting resource:', error);
+    throw error;
   }
 };

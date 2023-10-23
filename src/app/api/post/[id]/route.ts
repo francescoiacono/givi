@@ -5,6 +5,7 @@ import {
   errorRequestHandler,
   successRequestHandler,
 } from '@/utils/requestHandlers';
+import { adminApp } from '@/firebase/admin';
 
 interface Params {
   params: {
@@ -33,8 +34,26 @@ export const GET = async (_req: NextRequest, { params }: Params) => {
   }
 };
 
-export const DELETE = async (_req: NextRequest, { params }: Params) => {
+export const DELETE = async (request: NextRequest, { params }: Params) => {
   try {
+    // Get the token from the request headers
+    const authorization = request.headers.get('Authorization');
+    const token = authorization?.replace('Bearer ', '');
+
+    if (!token?.trim()) {
+      return errorRequestHandler(401, 'Unauthorized');
+    }
+
+    // Verify the token using Firebase
+    const decodedToken = await adminApp()
+      .auth()
+      .verifyIdToken(token)
+      .catch(() => {});
+
+    if (!decodedToken) {
+      return errorRequestHandler(401, 'Invalid token');
+    }
+
     // Get id from params
     const { id } = params;
 

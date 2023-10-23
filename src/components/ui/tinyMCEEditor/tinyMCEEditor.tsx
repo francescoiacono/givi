@@ -19,7 +19,7 @@ export const TinyMCEEditor = () => {
     <Editor
       apiKey={process.env.NEXT_PUBLIC_TINY_API_KEY}
       onInit={(evt, editor) => setEditorInstance(editor)}
-      initialValue=''
+      initialValue='<p>Let the words flow...</p>'
       init={{
         min_height: 500,
         menubar: false,

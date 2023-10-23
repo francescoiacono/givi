@@ -1,5 +1,4 @@
-import { db } from '@/firebase/database';
-import { ref, set } from 'firebase/database';
+import { adminApp } from '@/firebase/admin';
 
 // Save a resource of type T to the database
 export const saveResource = async <T>(
@@ -7,6 +6,12 @@ export const saveResource = async <T>(
   resourceId: string,
   resourceData: T
 ): Promise<void> => {
-  const postRef = ref(db, `${basePath}/${resourceId}`);
-  await set(postRef, resourceData);
+  try {
+    const db = adminApp().database();
+    const postRef = db.ref(`${basePath}/${resourceId}`);
+    await postRef.set(resourceData);
+  } catch (error) {
+    console.error('Error saving resource:', error);
+    throw error;
+  }
 };

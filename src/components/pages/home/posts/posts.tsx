@@ -3,6 +3,7 @@ import { useResource } from '@/components/hooks';
 import { PostItem } from './postItem';
 import { useEffect, useState } from 'react';
 import { BlogPost } from '@/types';
+import { ClientErrorMessage } from '@/components/ui';
 
 export const Posts = () => {
   const { loadResource } = useResource();
@@ -28,17 +29,17 @@ export const Posts = () => {
     loadPosts();
   }, []);
 
-  if (error) return <p className='text-red-600 font-bold'>{error}</p>;
+  if (error) return <ClientErrorMessage>{error}</ClientErrorMessage>;
 
   return (
     <>
       <h2>All Posts</h2>
       {loading ? (
         <p>Loading...</p>
-      ) : posts ? (
+      ) : posts && posts.length > 0 ? (
         posts.map((post) => <PostItem key={post.id} blogPost={post} />)
       ) : (
-        <p className='text-gray-300 italic'>No Posts</p>
+        <p className='text-gray-400 italic'>Nothing to see here.</p>
       )}
     </>
   );

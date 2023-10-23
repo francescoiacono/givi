@@ -5,11 +5,30 @@ import {
   errorRequestHandler,
   successRequestHandler,
 } from '@/utils/requestHandlers';
+import { adminApp } from '@/firebase/admin';
 
 //TODO: Add validation to requests
 
 export async function POST(request: NextRequest) {
   try {
+    // Get the token from the request headers
+    const authorization = request.headers.get('Authorization');
+    const token = authorization?.replace('Bearer ', '');
+
+    if (!token?.trim()) {
+      return errorRequestHandler(401, 'Unauthorized');
+    }
+
+    // Verify the token using Firebase
+    const decodedToken = await adminApp()
+      .auth()
+      .verifyIdToken(token)
+      .catch(() => {});
+
+    if (!decodedToken) {
+      return errorRequestHandler(401, 'Invalid token');
+    }
+
     // Get request body
     const data: BlogPost = await request.json();
 
@@ -22,6 +41,7 @@ export async function POST(request: NextRequest) {
       200
     );
   } catch (error) {
+    console.log(error);
     // Return an error response
     return errorRequestHandler(500, 'Failed to add blog post');
   }

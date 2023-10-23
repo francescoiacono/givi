@@ -1,20 +1,20 @@
-import { db } from '@/firebase/database';
-import { get, ref } from 'firebase/database';
+import { adminApp } from '@/firebase/admin';
 
 export const getAllResources = async <T>(
   basePath: string
 ): Promise<T[] | null> => {
-  const docRef = ref(db, basePath);
-  const snapshot = await get(docRef);
+  const db = adminApp().database();
+  const docRef = db.ref(basePath);
+
   const data: T[] = [];
+
+  const snapshot = await docRef.get();
 
   if (snapshot.exists()) {
     snapshot.forEach((childSnapshot) => {
-      const childData = childSnapshot.val();
-      data.push(childData);
+      data.push(childSnapshot.val());
     });
-    return data;
-  } else {
-    return null;
   }
+
+  return data;
 };
