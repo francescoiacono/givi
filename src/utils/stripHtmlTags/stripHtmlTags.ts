@@ -1,3 +1,3 @@
 export const stripHtmlTags = (input: string): string => {
-  return input.replace(/<\/?[^>]+(>|$)/g, '');
+  return input.replace(/<\/?[^>]+(>|$)/g, ' ').trim();
 };

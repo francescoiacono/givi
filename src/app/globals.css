@@ -20,3 +20,17 @@ h3 {
 h4 {
   @apply font-medium;
 }
+
+pre {
+  @apply whitespace-normal break-words;
+  @apply text-sm;
+}
+
+ol {
+  @apply list-decimal;
+  @apply ml-4;
+}
+
+ol > li {
+  @apply mb-4;
+}

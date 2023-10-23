@@ -1,4 +1,5 @@
 'use client';
+
 import { useResource } from '@/components/hooks';
 import { PostItem } from './postItem';
 import { useEffect, useState } from 'react';

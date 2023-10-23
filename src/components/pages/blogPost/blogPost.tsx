@@ -4,6 +4,8 @@ import { useResource } from '@/components/hooks';
 import { FlexCol, Wrapper } from '@/components/layouts';
 import { useEffect, useState } from 'react';
 import { BlogPost as BlogPostType } from '@/types';
+import { ClientErrorMessage } from '@/components/ui';
+import { formatDateLong } from '@/utils';
 import parse from 'html-react-parser';
 
 interface BlogPostProps {
@@ -32,12 +34,19 @@ export const BlogPost: React.FC<BlogPostProps> = ({ postId }) => {
   }, []);
 
   if (loading) return <p>Loading...</p>;
+  if (!post) return <ClientErrorMessage>Post not found!</ClientErrorMessage>;
 
   return (
     <Wrapper>
       <FlexCol>
-        <h1>{post?.title}</h1>
-        <div>{parse(post?.content || '')}</div>
+        <h1 className='font-bold'>{post.title}</h1>
+        <div>
+          {'Gabriele Vecchi'} • {formatDateLong(post.date)}
+        </div>
+        <div className='w-full border-b border-gray-300'></div>
+        <div className='pt-4 flex flex-col gap-3'>
+          {parse(post.content || '')}
+        </div>
       </FlexCol>
     </Wrapper>
   );
