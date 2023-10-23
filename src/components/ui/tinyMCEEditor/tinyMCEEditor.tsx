@@ -4,9 +4,14 @@ import { Editor } from '@tinymce/tinymce-react';
 import { useEffect, useState } from 'react';
 import { useEditorInstance } from '@/components/providers';
 
-export const TinyMCEEditor = () => {
+interface TinyMCEEditorProps {
+  initialValue?: string;
+}
+
+export const TinyMCEEditor: React.FC<TinyMCEEditorProps> = (props) => {
   const [isMounted, setIsMounted] = useState(false);
   const { setEditorInstance } = useEditorInstance();
+  const { initialValue } = props;
 
   useEffect(() => {
     setIsMounted(true);
@@ -19,7 +24,7 @@ export const TinyMCEEditor = () => {
     <Editor
       apiKey={process.env.NEXT_PUBLIC_TINY_API_KEY}
       onInit={(evt, editor) => setEditorInstance(editor)}
-      initialValue='<p>Let the words flow...</p>'
+      initialValue={initialValue ? initialValue : ''}
       init={{
         min_height: 500,
         menubar: false,

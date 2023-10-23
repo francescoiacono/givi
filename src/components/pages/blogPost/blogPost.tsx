@@ -1,11 +1,12 @@
 'use client';
 
 import { useResource } from '@/components/hooks';
-import { FlexCol, Wrapper } from '@/components/layouts';
+import { FlexCol, FlexRow, Wrapper } from '@/components/layouts';
 import { useEffect, useState } from 'react';
 import { BlogPost as BlogPostType } from '@/types';
 import { ClientErrorMessage } from '@/components/ui';
 import { formatDateLong } from '@/utils';
+import { PostOptions } from './postOptions';
 import parse from 'html-react-parser';
 
 interface BlogPostProps {
@@ -38,12 +39,17 @@ export const BlogPost: React.FC<BlogPostProps> = ({ postId }) => {
 
   return (
     <Wrapper>
+      <FlexRow>
+        <FlexCol>
+          <h1 className='font-bold'>{post.title}</h1>
+          <div>
+            {'Gabriele Vecchi'} • {formatDateLong(post.date)}
+          </div>
+        </FlexCol>
+        <PostOptions id={postId} />
+      </FlexRow>
+      <div className='mt-4 w-full border-b border-gray-300'></div>
       <FlexCol>
-        <h1 className='font-bold'>{post.title}</h1>
-        <div>
-          {'Gabriele Vecchi'} • {formatDateLong(post.date)}
-        </div>
-        <div className='w-full border-b border-gray-300'></div>
         <div className='pt-4 flex flex-col gap-3'>
           {parse(post.content || '')}
         </div>

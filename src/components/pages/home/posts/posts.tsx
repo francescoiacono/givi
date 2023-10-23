@@ -33,7 +33,7 @@ export const Posts = () => {
   if (error) return <ClientErrorMessage>{error}</ClientErrorMessage>;
 
   return (
-    <>
+    <div className='mt-4'>
       <h2>All Posts</h2>
       {loading ? (
         <p>Loading...</p>
@@ -42,6 +42,6 @@ export const Posts = () => {
       ) : (
         <p className='text-gray-400 italic'>Nothing to see here.</p>
       )}
-    </>
+    </div>
   );
 };

@@ -11,3 +11,18 @@ export const newBlogPost = (title: string, content: string): BlogPost => {
 
   return newPost;
 };
+
+export const updatedBlogPost = (
+  id: string,
+  title: string,
+  content: string
+): BlogPost => {
+  const updatedPost: BlogPost = {
+    id: id,
+    title: title,
+    content: content,
+    date: new Date(),
+  };
+
+  return updatedPost;
+};

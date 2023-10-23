@@ -1,5 +1,5 @@
 import { NextRequest } from 'next/server';
-import { deleteResource, getResource } from '@/firebase/actions';
+import { deleteResource, getResource, saveResource } from '@/firebase/actions';
 import { BlogPost } from '@/types';
 import {
   errorRequestHandler,
@@ -31,6 +31,42 @@ export const GET = async (_req: NextRequest, { params }: Params) => {
   } catch (error) {
     // Return an error response
     return errorRequestHandler(500, 'Failed to retrieve blog post');
+  }
+};
+
+// Update post route
+export const PUT = async (request: NextRequest, { params }: Params) => {
+  try {
+    // Get id from params
+    const { id } = params;
+
+    // Get the token from the request headers
+    const authorization = request.headers.get('Authorization');
+    const token = authorization?.replace('Bearer ', '');
+
+    if (!token?.trim()) {
+      return errorRequestHandler(401, 'Unauthorized');
+    }
+
+    // Verify the token using Firebase
+    const decodedToken = await adminApp()
+      .auth()
+      .verifyIdToken(token)
+      .catch(() => {});
+
+    if (!decodedToken) {
+      return errorRequestHandler(401, 'Invalid token');
+    }
+
+    const data: BlogPost = await request.json();
+
+    // Update blog post in DB
+    await saveResource<BlogPost>('posts/', id, data);
+
+    // Return a success response
+    return successRequestHandler('Blog post updated', 200);
+  } catch (error) {
+    return errorRequestHandler(500, 'Failed to update blog post');
   }
 };
 

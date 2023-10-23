@@ -1,10 +1,14 @@
 import { Wrapper } from '@/components/layouts';
 import { NewPostEditor } from './newPostEditor/newPostEditor';
 
-export const NewPost = () => {
+interface NewPostProps {
+  postId?: string;
+}
+
+export const NewPost: React.FC<NewPostProps> = ({ postId }) => {
   return (
     <Wrapper>
-      <NewPostEditor />
+      <NewPostEditor id={postId} />
     </Wrapper>
   );
 };

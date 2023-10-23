@@ -23,6 +23,19 @@ export const useResource = () => {
     }
   };
 
+  const updateResource = async <T>(url: string, data: T, token: string) => {
+    try {
+      const response = await axios.put(url, data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const deleteResource = async (url: string, token: string) => {
     try {
       const response = await axios.delete(url, {
@@ -37,5 +50,5 @@ export const useResource = () => {
     }
   };
 
-  return { loadResource, saveResource, deleteResource };
+  return { loadResource, saveResource, updateResource, deleteResource };
 };
