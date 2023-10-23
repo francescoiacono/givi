@@ -1,7 +1,7 @@
 'use client';
 
 import { useResource } from '@/components/hooks';
-import { FlexCol, FlexRow, Wrapper } from '@/components/layouts';
+import { FlexCol, FlexRow } from '@/components/layouts';
 import { useEffect, useState } from 'react';
 import { BlogPost as BlogPostType } from '@/types';
 import { ClientErrorMessage } from '@/components/ui';
@@ -38,7 +38,7 @@ export const BlogPost: React.FC<BlogPostProps> = ({ postId }) => {
   if (!post) return <ClientErrorMessage>Post not found!</ClientErrorMessage>;
 
   return (
-    <Wrapper>
+    <main>
       <FlexRow>
         <FlexCol>
           <h1 className='font-bold'>{post.title}</h1>
@@ -48,12 +48,12 @@ export const BlogPost: React.FC<BlogPostProps> = ({ postId }) => {
         </FlexCol>
         <PostOptions id={postId} />
       </FlexRow>
-      <div className='mt-4 w-full border-b border-gray-300'></div>
+      <div className='mt-4 w-full border-b border-gray-400'></div>
       <FlexCol>
         <div className='pt-4 flex flex-col gap-3'>
           {parse(post.content || '')}
         </div>
       </FlexCol>
-    </Wrapper>
+    </main>
   );
 };

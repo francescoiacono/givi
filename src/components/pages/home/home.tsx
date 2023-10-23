@@ -1,22 +1,16 @@
-import { FlexCol, FlexRow, MainLayout, Wrapper } from '@/components/layouts';
+import { FlexRow } from '@/components/layouts';
 import { Posts } from './posts';
-import { BlogIntro } from './blogIntro';
-import { Header } from './header';
 import { SmallAbout } from './smallAbout';
+import { BlogHeader } from './blogHeader';
 
 export const Home = () => {
   return (
-    <MainLayout>
-      <Wrapper>
-        <Header />
-        <FlexRow>
-          <SmallAbout />
-          <FlexCol>
-            <BlogIntro />
-            <Posts />
-          </FlexCol>
-        </FlexRow>
-      </Wrapper>
-    </MainLayout>
+    <>
+      <BlogHeader />
+      <FlexRow>
+        <SmallAbout />
+        <Posts />
+      </FlexRow>
+    </>
   );
 };

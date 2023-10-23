@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '@/firebase/auth';
-import { FlexCol, Wrapper } from '@/components/layouts';
+import { FlexCol } from '@/components/layouts';
 import { Button, ClientErrorMessage, Input } from '@/components/ui';
 
 const Page = () => {
@@ -30,7 +30,7 @@ const Page = () => {
   };
 
   return (
-    <Wrapper>
+    <main>
       <h1>Sign Up</h1>
       <form className='mt-2 max-w-xs' onSubmit={handleSubmit}>
         <FlexCol>
@@ -60,7 +60,7 @@ const Page = () => {
         </FlexCol>
       </form>
       {error && <ClientErrorMessage>{error}</ClientErrorMessage>}
-    </Wrapper>
+    </main>
   );
 };
 

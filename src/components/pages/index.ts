@@ -1,4 +1,4 @@
 export * from './home/home';
 export * from './blogPost/blogPost';
-export * from './newPost/newPost';
+export * from './postEditor/postEditor';
 export * from './adminLogin/adminLogin';

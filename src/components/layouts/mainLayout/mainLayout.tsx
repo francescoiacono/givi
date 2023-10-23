@@ -1,5 +1,5 @@
-import { LogoutButton } from '@/components/shared';
-import { NewPostButton } from '@/components/shared/newPostButton/newPostButton';
+import { Navbar } from '@/components/ui';
+import { Wrapper } from '..';
 
 interface MainLayoutProps {
   children: React.ReactNode;
@@ -7,12 +7,9 @@ interface MainLayoutProps {
 
 export const MainLayout: React.FC<MainLayoutProps> = (props) => {
   return (
-    <>
-      <header className='flex items-center gap-4 w-full justify-end p-4'>
-        <LogoutButton />
-        <NewPostButton />
-      </header>
+    <Wrapper>
+      <Navbar />
       <main>{props.children}</main>
-    </>
+    </Wrapper>
   );
 };

@@ -5,6 +5,7 @@ import { PostItem } from './postItem';
 import { useEffect, useState } from 'react';
 import { BlogPost } from '@/types';
 import { ClientErrorMessage } from '@/components/ui';
+import { FlexCol } from '@/components/layouts';
 
 export const Posts = () => {
   const { loadResource } = useResource();
@@ -33,7 +34,7 @@ export const Posts = () => {
   if (error) return <ClientErrorMessage>{error}</ClientErrorMessage>;
 
   return (
-    <div className='mt-4'>
+    <FlexCol className='mt-4 w-full'>
       <h2>All Posts</h2>
       {loading ? (
         <p>Loading...</p>
@@ -42,6 +43,6 @@ export const Posts = () => {
       ) : (
         <p className='text-gray-400 italic'>Nothing to see here.</p>
       )}
-    </div>
+    </FlexCol>
   );
 };

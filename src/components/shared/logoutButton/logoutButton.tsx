@@ -28,7 +28,9 @@ export const LogoutButton = () => {
       {user ? (
         <>
           <p>Hey, {user.email}! </p>
-          <Button onClick={handleLogout}>Log out</Button>
+          <Button secondary onClick={handleLogout}>
+            Log out
+          </Button>
         </>
       ) : null}
       {error && <ClientErrorMessage>{error}</ClientErrorMessage>}

@@ -1,7 +1,7 @@
-import { NewPost } from '@/components/pages';
+import { PostEditor } from '@/components/pages';
 
 const Page = () => {
-  return <NewPost />;
+  return <PostEditor />;
 };
 
 export default Page;

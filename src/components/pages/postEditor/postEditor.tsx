@@ -14,12 +14,13 @@ import { newBlogPost, updatedBlogPost } from '@/utils';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-interface NewPostEditorProps {
+interface PostEditor {
   id?: string;
 }
 
-export const NewPostEditor: React.FC<NewPostEditorProps> = ({ id }) => {
+export const PostEditor: React.FC<PostEditor> = ({ id }) => {
   const [title, setTitle] = useState('');
+  const [summary, setSummary] = useState<string>('');
   const [error, setError] = useState<string>('');
   const { editorRef, editorReady } = useEditorInstance();
   const { saveResource, loadResource, updateResource } = useResource();
@@ -31,9 +32,10 @@ export const NewPostEditor: React.FC<NewPostEditorProps> = ({ id }) => {
     const loadPostBody = async () => {
       try {
         const res = await loadResource(`/api/post/${id}`);
-        const { title, content } = res.data;
+        const { title, summary, content } = res.data;
         if (editorRef.current && editorReady) {
           setTitle(title);
+          setSummary(summary);
           editorRef.current.setContent(content);
         }
       } catch (error) {
@@ -48,6 +50,7 @@ export const NewPostEditor: React.FC<NewPostEditorProps> = ({ id }) => {
     return () => {
       if (editorRef.current && editorReady) {
         setTitle('');
+        setSummary('');
         editorRef.current.setContent('');
       }
     };
@@ -62,8 +65,8 @@ export const NewPostEditor: React.FC<NewPostEditorProps> = ({ id }) => {
 
         // Create a new post object
         const post = id
-          ? updatedBlogPost(id, title, content)
-          : newBlogPost(title, content);
+          ? updatedBlogPost(id, title, summary, content)
+          : newBlogPost(title, summary, content);
 
         // Get token for Authorization
         const token = await user?.getIdToken();
@@ -89,19 +92,30 @@ export const NewPostEditor: React.FC<NewPostEditorProps> = ({ id }) => {
   if (error) return <ClientErrorMessage>{error}</ClientErrorMessage>;
 
   return (
-    <form onSubmit={submitPost}>
-      <FlexCol>
-        <h1>New Post</h1>
-        <Input
-          type='text'
-          placeholder='Give your work a title'
-          id='title'
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
-        <TinyMCEEditor />
-        <Button type='submit'>Save Post</Button>
-      </FlexCol>
-    </form>
+    <main>
+      <form onSubmit={submitPost}>
+        <FlexCol>
+          <h1>New Post</h1>
+          <Input
+            type='text'
+            placeholder='Give your work a title'
+            id='title'
+            withLabel='Title'
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+          <Input
+            type='text'
+            placeholder='A summary of your post'
+            id='summary'
+            withLabel='Summary'
+            value={summary}
+            onChange={(e) => setSummary(e.target.value)}
+          />
+          <TinyMCEEditor />
+          <Button type='submit'>Save Post</Button>
+        </FlexCol>
+      </form>
+    </main>
   );
 };

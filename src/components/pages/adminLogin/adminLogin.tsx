@@ -61,7 +61,6 @@ export const AdminLogin = () => {
             setEmail(e.target.value);
           }}
           value={email}
-          className='border rounded-md border-gray-300 p-1'
           id='email'
           type='text'
           withLabel='Email'
@@ -70,14 +69,11 @@ export const AdminLogin = () => {
           value={password}
           autoComplete='current-password'
           onChange={(e) => setPassword(e.target.value)}
-          className='border rounded-md border-gray-300 p-1'
           id='password'
           type='password'
           withLabel='Password'
         />
-        <Button className='border rounded-md border-gray-300 p-1 mt-4'>
-          Log in
-        </Button>
+        <Button>Log in</Button>
       </form>
       {error && (
         <ClientErrorMessage className=' max-w-[20rem] py-4'>
