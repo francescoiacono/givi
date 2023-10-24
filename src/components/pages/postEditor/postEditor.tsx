@@ -24,7 +24,7 @@ export const PostEditor: React.FC<PostEditor> = ({ id }) => {
   const [editorContent, setEditorContent] = useState<string>('');
   const [error, setError] = useState<string>('');
   const { user } = useAuth();
-  const { post, savePost } = useBlogPost(id || '');
+  const { post, savePost, loading } = useBlogPost(id || '');
   const { editorRef, editorReady } = useEditorInstance();
   const router = useRouter();
 
@@ -66,23 +66,20 @@ export const PostEditor: React.FC<PostEditor> = ({ id }) => {
     try {
       // If editor is ready, get the content and save it in DB
       if (editorRef.current && editorReady) {
-        // Check token for auth
-        const token = await user?.getIdToken();
-        if (!token) throw new Error('User is not authenticated');
-
         // Retrieve update content from editor
         const content = editorRef.current.getContent();
-
         // Save post to DB
-        const post = await savePost(title, summary, content, token);
+        const post = await savePost(title, summary, content);
         router.push(`/post/${post}`);
       } else {
-        throw new Error('Editor is not ready');
+        setError('Editor is not ready. Please try again.');
       }
     } catch (error) {
       console.error(error);
     }
   };
+
+  if (loading) return <h1>Loading...</h1>;
 
   return user ? (
     <main>

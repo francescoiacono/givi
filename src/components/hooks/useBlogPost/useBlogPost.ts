@@ -1,16 +1,20 @@
 import { BlogPost } from '@/types';
-import { useEffect, useState, useCallback } from 'react';
-import { useResource } from '@/components/hooks';
+import { useEffect, useState } from 'react';
+import { useAuth, useResource } from '@/components/hooks';
 import { newBlogPost, updatedBlogPost } from '@/utils';
 
 export const useBlogPost = (id?: string) => {
   const [post, setPost] = useState<BlogPost | null>(null);
   const [error, setError] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(true);
+  const { getToken } = useAuth();
   const { loadResource, updateResource, saveResource } = useResource();
 
   useEffect(() => {
-    if (!id) return;
+    if (!id) {
+      setLoading(false);
+      return;
+    }
 
     const loadPost = async () => {
       setLoading(true);
@@ -30,25 +34,26 @@ export const useBlogPost = (id?: string) => {
     }
   }, [post, id]);
 
-  const savePost = async (
-    title: string,
-    summary: string,
-    content: string,
-    authToken: string
-  ) => {
-    // Create a new post object
-    const post = id
-      ? updatedBlogPost(id, title, summary, content)
-      : newBlogPost(title, summary, content);
+  const savePost = async (title: string, summary: string, content: string) => {
+    try {
+      // Check if user is authenticated
+      const authToken = await getToken();
 
-    // If id is present, update the post, otherwise save a new one
-    if (id) {
-      await updateResource<BlogPost>(`/api/post/${id}`, post, authToken);
-    } else {
-      await saveResource<BlogPost>('/api/post', post, authToken);
+      // Create a new post object
+      const post = id
+        ? updatedBlogPost(id, title, summary, content)
+        : newBlogPost(title, summary, content);
+
+      // If id is present, update the post, otherwise save a new one
+      if (id) {
+        await updateResource<BlogPost>(`/api/post/${id}`, post, authToken);
+      } else {
+        await saveResource<BlogPost>('/api/post', post, authToken);
+      }
+      return post.id;
+    } catch (e) {
+      setError((e as Error['message']) || 'Error while saving post');
     }
-
-    return post.id;
   };
 
   return { post, error, loading, savePost };

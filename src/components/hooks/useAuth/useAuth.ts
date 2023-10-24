@@ -15,6 +15,12 @@ export const useAuth = () => {
     return unsubscribe;
   }, []);
 
+  const getToken = async () => {
+    const authToken = await user?.getIdToken();
+    if (!authToken) throw new Error('User is not authenticated');
+    return authToken;
+  };
+
   const logIn = (email: string, password: string) => {
     return signInWithEmailAndPassword(auth, email, password).catch((error) => {
       throw new Error(
@@ -29,5 +35,5 @@ export const useAuth = () => {
     });
   };
 
-  return { logIn, logOut, user };
+  return { logIn, logOut, getToken, user };
 };
