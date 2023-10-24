@@ -1,6 +1,5 @@
 import { FlexCol, FlexRow } from '@/components/layouts';
 import { IconLink } from '@/components/ui';
-import Link from 'next/link';
 import { BlogIntro } from './blogIntro';
 
 export const BlogHeader = () => {
@@ -19,19 +18,15 @@ export const BlogHeader = () => {
           <h1 className='text-5xl'>Gabriele Vecchi</h1>
         </div>
         <ul>
-          <li className='w-16 h-16 border border-gray-400 rounded-full flex items-center justify-center'>
-            <Link href='mailto:test@test.com'>
-              <IconLink
-                href='mailto:test@test.com'
-                src='/assets/icons/common/email.svg'
-                alt='Email'
-                ariaLabel='Send an Email'
-              />
-            </Link>
-          </li>
+          <IconLink
+            href='mailto:test@test.com'
+            src='/assets/icons/common/email.svg'
+            alt='Email'
+            ariaLabel='Send an Email'
+          />
         </ul>
       </FlexRow>
-      <div className='border-b border-gray-400 my-4 w-3/12 mx-auto'></div>
+      <div className='border-b border-gray-400 w-3/12 mt-2 mb-6 mx-auto'></div>
 
       <BlogIntro />
     </FlexCol>

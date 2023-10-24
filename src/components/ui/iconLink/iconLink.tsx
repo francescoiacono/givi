@@ -31,7 +31,7 @@ export const IconLink: React.FC<IconProps> = ({
         href={href}
         passHref
         aria-label={ariaLabel}
-        className='w-16 h-16 border border-gray-400 rounded-full flex items-center justify-center'
+        className='w-16 h-16 flex items-center justify-center'
       >
         <Image src={src} height={32} width={32} alt={alt} />
       </Link>
