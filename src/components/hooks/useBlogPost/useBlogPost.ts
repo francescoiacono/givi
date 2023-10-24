@@ -1,12 +1,13 @@
 import { BlogPost } from '@/types';
 import { useEffect, useState, useCallback } from 'react';
 import { useResource } from '@/components/hooks';
+import { newBlogPost, updatedBlogPost } from '@/utils';
 
 export const useBlogPost = (id?: string) => {
   const [post, setPost] = useState<BlogPost | null>(null);
   const [error, setError] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(true);
-  const { loadResource } = useResource();
+  const { loadResource, updateResource, saveResource } = useResource();
 
   useEffect(() => {
     if (!id) return;
@@ -29,5 +30,26 @@ export const useBlogPost = (id?: string) => {
     }
   }, [post, id]);
 
-  return { post, error, loading };
+  const savePost = async (
+    title: string,
+    summary: string,
+    content: string,
+    authToken: string
+  ) => {
+    // Create a new post object
+    const post = id
+      ? updatedBlogPost(id, title, summary, content)
+      : newBlogPost(title, summary, content);
+
+    // If id is present, update the post, otherwise save a new one
+    if (id) {
+      await updateResource<BlogPost>(`/api/post/${id}`, post, authToken);
+    } else {
+      await saveResource<BlogPost>('/api/post', post, authToken);
+    }
+
+    return post.id;
+  };
+
+  return { post, error, loading, savePost };
 };

@@ -1,6 +1,6 @@
 'use client';
 
-import { useAuth, useBlogPost, useResource } from '@/components/hooks';
+import { useAuth, useBlogPost } from '@/components/hooks';
 import { FlexCol } from '@/components/layouts';
 import { useEditorInstance } from '@/components/providers';
 import {
@@ -9,10 +9,9 @@ import {
   Input,
   TinyMCEEditor,
 } from '@/components/ui';
-import { BlogPost } from '@/types';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { newBlogPost, updatedBlogPost } from '@/utils';
+import { validateSummary, validateTitle } from '@/utils';
 import { MAX_SUMMARY_LENGTH, MAX_TITLE_LENGTH } from '@/utils/constants';
 
 interface PostEditor {
@@ -24,14 +23,13 @@ export const PostEditor: React.FC<PostEditor> = ({ id }) => {
   const [summary, setSummary] = useState<string>('');
   const [editorContent, setEditorContent] = useState<string>('');
   const [error, setError] = useState<string>('');
-  const { editorRef, editorReady } = useEditorInstance();
-  const { saveResource, updateResource } = useResource();
-  const router = useRouter();
   const { user } = useAuth();
-  const { post } = useBlogPost(id || '');
+  const { post, savePost } = useBlogPost(id || '');
+  const { editorRef, editorReady } = useEditorInstance();
+  const router = useRouter();
 
   useEffect(() => {
-    // If id is present, load the post body and title to populate editor
+    // Load post body if it exists
     const loadPostBody = async () => {
       try {
         if (post) {
@@ -55,42 +53,29 @@ export const PostEditor: React.FC<PostEditor> = ({ id }) => {
   const submitPost = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!title.trim()) return setError('A title is required.');
-    if (title.length > MAX_TITLE_LENGTH) {
-      return setError(
-        `Title must be less or equal to ${MAX_TITLE_LENGTH}  characters`
-      );
-    }
+    // Check input validation
+    const titleError = validateTitle(title);
+    const summaryError = validateSummary(summary);
 
-    if (summary.length > MAX_SUMMARY_LENGTH) {
-      return setError(
-        `Summary must be less or equal to ${MAX_SUMMARY_LENGTH} characters`
-      );
+    // Show error if any
+    if (titleError || summaryError) {
+      setError(titleError || summaryError || '');
+      return;
     }
 
     try {
       // If editor is ready, get the content and save it in DB
       if (editorRef.current && editorReady) {
-        const content = editorRef.current.getContent();
-
-        // Create a new post object
-        const post = id
-          ? updatedBlogPost(id, title, summary, content)
-          : newBlogPost(title, summary, content);
-
-        // Get token for Authorization
+        // Check token for auth
         const token = await user?.getIdToken();
         if (!token) throw new Error('User is not authenticated');
 
-        // If id is present, update the post, otherwise save a new one
-        if (id) {
-          await updateResource<BlogPost>(`/api/post/${id}`, post, token);
-        } else {
-          await saveResource<BlogPost>('/api/post', post, token);
-        }
+        // Retrieve update content from editor
+        const content = editorRef.current.getContent();
 
-        // Redirect to the new/updatedPost post
-        router.push(`/post/${post.id}`);
+        // Save post to DB
+        const post = await savePost(title, summary, content, token);
+        router.push(`/post/${post}`);
       } else {
         throw new Error('Editor is not ready');
       }
@@ -109,7 +94,7 @@ export const PostEditor: React.FC<PostEditor> = ({ id }) => {
             type='text'
             placeholder='Give your work a title'
             id='title'
-            label='Title'
+            label='Title*'
             value={title}
             maxLength={MAX_TITLE_LENGTH}
             onChange={(e) => setTitle(e.target.value)}

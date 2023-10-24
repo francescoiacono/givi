@@ -28,6 +28,7 @@ export const TinyMCEEditor: React.FC<TinyMCEEditorProps> = (props) => {
       init={{
         min_height: 500,
         menubar: false,
+        elementpath: false,
         plugins: [
           'advlist',
           'autolink',
