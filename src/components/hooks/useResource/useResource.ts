@@ -6,7 +6,9 @@ export const useResource = () => {
       const response = await axios.get(url);
       return response.data;
     } catch (error) {
-      console.log(error);
+      throw error instanceof Error
+        ? error
+        : new Error('An error occurred while loading the resource.');
     }
   };
 

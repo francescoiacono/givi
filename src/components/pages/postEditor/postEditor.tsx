@@ -1,6 +1,6 @@
 'use client';
 
-import { useAuth, useResource } from '@/components/hooks';
+import { useAuth, useBlogPost, useResource } from '@/components/hooks';
 import { FlexCol } from '@/components/layouts';
 import { useEditorInstance } from '@/components/providers';
 import {
@@ -10,16 +10,14 @@ import {
   TinyMCEEditor,
 } from '@/components/ui';
 import { BlogPost } from '@/types';
-import { newBlogPost, updatedBlogPost } from '@/utils';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { newBlogPost, updatedBlogPost } from '@/utils';
+import { MAX_SUMMARY_LENGTH, MAX_TITLE_LENGTH } from '@/utils/constants';
 
 interface PostEditor {
   id?: string;
 }
-
-const MAX_TITLE_LENGTH = 80;
-const MAX_SUMMARY_LENGTH = 150;
 
 export const PostEditor: React.FC<PostEditor> = ({ id }) => {
   const [title, setTitle] = useState('');
@@ -27,38 +25,32 @@ export const PostEditor: React.FC<PostEditor> = ({ id }) => {
   const [editorContent, setEditorContent] = useState<string>('');
   const [error, setError] = useState<string>('');
   const { editorRef, editorReady } = useEditorInstance();
-  const { saveResource, loadResource, updateResource } = useResource();
+  const { saveResource, updateResource } = useResource();
   const router = useRouter();
   const { user } = useAuth();
+  const { post } = useBlogPost(id || '');
 
   useEffect(() => {
     // If id is present, load the post body and title to populate editor
     const loadPostBody = async () => {
       try {
-        const res = await loadResource(`/api/post/${id}`);
-        const { title, summary, content } = res.data;
-        if (editorRef.current && editorReady) {
-          setTitle(title);
-          setSummary(summary);
-          setEditorContent(content);
+        if (post) {
+          const { title, summary, content } = post;
+          if (editorRef.current && editorReady) {
+            setTitle(title);
+            setSummary(summary);
+            setEditorContent(content);
+          }
         }
       } catch (error) {
         setError(error as Error['message']);
       }
     };
 
-    if (id && editorReady) {
+    if (editorReady && post) {
       loadPostBody();
     }
-
-    return () => {
-      if (editorRef.current && editorReady) {
-        setTitle('');
-        setSummary('');
-        setEditorContent('');
-      }
-    };
-  }, [editorReady, editorRef, id]);
+  }, [editorReady, editorRef, id, post]);
 
   const submitPost = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

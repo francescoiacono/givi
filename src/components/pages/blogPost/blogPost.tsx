@@ -1,6 +1,6 @@
 'use client';
 
-import { useResource } from '@/components/hooks';
+import { useBlogPost, useResource } from '@/components/hooks';
 import { FlexCol, FlexRow } from '@/components/layouts';
 import { useEffect, useState } from 'react';
 import { BlogPost as BlogPostType } from '@/types';
@@ -14,28 +14,14 @@ interface BlogPostProps {
 }
 
 export const BlogPost: React.FC<BlogPostProps> = ({ postId }) => {
-  const { loadResource } = useResource();
-  const [post, setPost] = useState<BlogPostType>();
-  const [loading, setLoading] = useState<boolean>(true);
+  const { post, error, loading } = useBlogPost(postId);
 
-  useEffect(() => {
-    const loadPost = async () => {
-      setLoading(true);
-      try {
-        const res = await loadResource(`/api/post/${postId}`);
-        setPost(res.data);
-        setLoading(false);
-      } catch (error) {
-        console.log(error);
-        setLoading(false);
-      }
-    };
+  if (loading) return <h1>Loading...</h1>;
 
-    loadPost();
-  }, []);
-
-  if (loading) return <p>Loading...</p>;
-  if (!post) return <ClientErrorMessage>Post not found!</ClientErrorMessage>;
+  if (!post)
+    return (
+      <ClientErrorMessage>{error || 'Post not found!'}</ClientErrorMessage>
+    );
 
   return (
     <main>
