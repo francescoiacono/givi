@@ -35,14 +35,14 @@ const Page = () => {
       <form className='mt-2 max-w-xs' onSubmit={handleSubmit}>
         <FlexCol>
           <Input
-            withLabel='Email'
+            label='Email'
             id='email'
             type='text'
             onChange={(e) => setEmail(e.target.value)}
           />
 
           <Input
-            withLabel='Password'
+            label='Password'
             className='border border-gray-400 rounded-md'
             id='password'
             type='password'
@@ -50,7 +50,7 @@ const Page = () => {
           />
 
           <Input
-            withLabel='Repeat Password'
+            label='Repeat Password'
             className='border border-gray-400 rounded-md'
             id='repeat'
             type='password'

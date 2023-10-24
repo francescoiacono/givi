@@ -24,6 +24,7 @@ const MAX_SUMMARY_LENGTH = 150;
 export const PostEditor: React.FC<PostEditor> = ({ id }) => {
   const [title, setTitle] = useState('');
   const [summary, setSummary] = useState<string>('');
+  const [editorContent, setEditorContent] = useState<string>('');
   const [error, setError] = useState<string>('');
   const { editorRef, editorReady } = useEditorInstance();
   const { saveResource, loadResource, updateResource } = useResource();
@@ -39,7 +40,7 @@ export const PostEditor: React.FC<PostEditor> = ({ id }) => {
         if (editorRef.current && editorReady) {
           setTitle(title);
           setSummary(summary);
-          editorRef.current.setContent(content);
+          setEditorContent(content);
         }
       } catch (error) {
         setError(error as Error['message']);
@@ -54,7 +55,7 @@ export const PostEditor: React.FC<PostEditor> = ({ id }) => {
       if (editorRef.current && editorReady) {
         setTitle('');
         setSummary('');
-        editorRef.current.setContent('');
+        setEditorContent('');
       }
     };
   }, [editorReady, editorRef, id]);
@@ -116,7 +117,7 @@ export const PostEditor: React.FC<PostEditor> = ({ id }) => {
             type='text'
             placeholder='Give your work a title'
             id='title'
-            withLabel='Title'
+            label='Title'
             value={title}
             maxLength={MAX_TITLE_LENGTH}
             onChange={(e) => setTitle(e.target.value)}
@@ -125,12 +126,12 @@ export const PostEditor: React.FC<PostEditor> = ({ id }) => {
             type='text'
             placeholder='A summary of your post'
             id='summary'
-            withLabel='Summary'
+            label='Summary'
             value={summary}
             maxLength={MAX_SUMMARY_LENGTH}
             onChange={(e) => setSummary(e.target.value)}
           />
-          <TinyMCEEditor />
+          <TinyMCEEditor initialValue={editorContent} />
           <Button type='submit'>Save Post</Button>
         </FlexCol>
       </form>

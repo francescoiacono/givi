@@ -34,7 +34,7 @@ export const Posts = () => {
   if (error) return <ClientErrorMessage>{error}</ClientErrorMessage>;
 
   return (
-    <FlexCol className='mt-4 w-full'>
+    <FlexCol className='mt-4 w-full ml-4'>
       <h2>All Posts</h2>
       {loading ? (
         <p>Loading...</p>

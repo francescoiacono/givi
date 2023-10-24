@@ -1,13 +1,13 @@
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  withLabel?: string;
+  label?: string;
 }
 
 export const Input: React.FC<InputProps> = (props) => {
   return (
     <>
-      {props.withLabel ? (
+      {props.label ? (
         <label className='flex flex-col' htmlFor={props.id}>
-          {props.withLabel}
+          {props.label}
           <input {...props} className='p-2 border border-gray-400 rounded-md' />
         </label>
       ) : (

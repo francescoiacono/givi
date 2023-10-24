@@ -63,7 +63,7 @@ export const AdminLogin = () => {
           value={email}
           id='email'
           type='text'
-          withLabel='Email'
+          label='Email'
         />
         <Input
           value={password}
@@ -71,7 +71,7 @@ export const AdminLogin = () => {
           onChange={(e) => setPassword(e.target.value)}
           id='password'
           type='password'
-          withLabel='Password'
+          label='Password'
         />
         <Button>Log in</Button>
       </form>
