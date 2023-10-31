@@ -15,12 +15,6 @@ export const AdminLogin = () => {
   const [password, setPassword] = useState('');
   const router = useRouter();
 
-  useEffect(() => {
-    return () => {
-      setLoading(false);
-    };
-  }, []);
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
