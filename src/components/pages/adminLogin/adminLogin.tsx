@@ -10,7 +10,7 @@ import { useRouter } from 'next/navigation';
 export const AdminLogin = () => {
   const { logIn } = useAuth();
   const [email, setEmail] = useState('');
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [password, setPassword] = useState('');
   const router = useRouter();
