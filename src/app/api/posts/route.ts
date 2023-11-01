@@ -49,15 +49,22 @@ export async function POST(request: NextRequest) {
 // Get all posts
 export async function GET(request: NextRequest) {
   try {
-    const posts = await getAllResources<BlogPost>('posts/');
+    const limit = request.nextUrl.searchParams.get('limit') || 3;
+    const lastKey = request.nextUrl.searchParams.get('lastKey') || undefined;
+
+    const posts = await getAllResources<BlogPost>(
+      'posts/',
+      Number(limit),
+      Number(lastKey)
+    );
 
     if (!posts) {
       return errorRequestHandler(404, 'No blog posts found');
     }
 
-    const sortedPosts = utils.sortPostsByDate(posts);
+    // const sortedPosts = utils.sortPostsByDate(posts);
 
-    return successRequestHandler<BlogPost[]>(sortedPosts, 200);
+    return successRequestHandler<BlogPost[]>(posts, 200);
   } catch (error) {
     return errorRequestHandler(500, 'Failed to get blog post');
   }

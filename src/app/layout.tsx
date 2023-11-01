@@ -6,12 +6,12 @@ import { EditorProvider } from '@/components/providers';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Gabriele Vecchi - Writer & Director',
-  description: 'Gabriele Vecchi is a director and writer.'
+  title: 'Givi - Writer & Director',
+  description: 'Welcome to my website!',
 };
 
 export default function RootLayout({
-  children
+  children,
 }: {
   children: React.ReactNode;
 }) {

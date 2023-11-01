@@ -67,14 +67,13 @@ class Utils {
     summary: string,
     content: string
   ): BlogPost => {
-    const newPost: BlogPost = {
-      id: uuidv4(),
-      summary: summary,
-      title: title,
-      content: content,
-      date: new Date(),
-    };
-
+    const newPost = new BlogPost(
+      uuidv4(),
+      title,
+      content,
+      summary,
+      -Date.now()
+    );
     return newPost;
   };
 
@@ -85,32 +84,13 @@ class Utils {
     summary: string,
     content: string
   ): BlogPost => {
-    const updatedPost: BlogPost = {
-      id: id,
-      title: title,
-      summary: summary,
-      content: content,
-      date: new Date(),
-    };
-
+    const updatedPost = new BlogPost(id, title, content, summary, -Date.now());
     return updatedPost;
   };
 
   // Strip HTML tags from string
   public stripHtmlTags = (input: string): string => {
     return input.replace(/<\/?[^>]+(>|$)/g, ' ').trim();
-  };
-
-  // Sort posts by date
-  public sortPostsByDate = (posts: BlogPost[]): BlogPost[] => {
-    const updatedPosts = posts.sort((a, b) => {
-      const dateA = new Date(a.date).getTime();
-      const dateB = new Date(b.date).getTime();
-
-      return dateB - dateA; // for descending order
-    });
-
-    return updatedPosts;
   };
 }
 

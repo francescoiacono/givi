@@ -15,7 +15,7 @@ export const BlogHeader = () => {
           />
         </ul>
         <div className='text-center flex-1 max-w-sm mx-auto'>
-          <h1 className='text-5xl'>Gabriele Vecchi</h1>
+          <h1 className='text-5xl'>Givi</h1>
         </div>
         <ul>
           <IconLink
