@@ -11,7 +11,7 @@ import {
 } from '@/components/ui';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { validateSummary, validateTitle } from '@/utils';
+import { utils } from '@/utils';
 import { MAX_SUMMARY_LENGTH, MAX_TITLE_LENGTH } from '@/utils/constants';
 
 interface PostEditor {
@@ -54,8 +54,8 @@ export const PostEditor: React.FC<PostEditor> = ({ id }) => {
     e.preventDefault();
 
     // Check input validation
-    const titleError = validateTitle(title);
-    const summaryError = validateSummary(summary);
+    const titleError = utils.validateTitle(title);
+    const summaryError = utils.validateSummary(summary);
 
     // Show error if any
     if (titleError || summaryError) {
