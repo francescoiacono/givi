@@ -17,7 +17,7 @@ export const Posts = () => {
     const loadPosts = async () => {
       setLoading(true);
       try {
-        const res = await loadResource('/api/post');
+        const res = await loadResource('/api/posts');
         if (res) {
           setPosts(res.data);
           setLoading(false);

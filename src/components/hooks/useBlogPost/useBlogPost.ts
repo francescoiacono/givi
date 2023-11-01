@@ -20,7 +20,7 @@ export const useBlogPost = (id?: string) => {
       setLoading(true);
       setError('');
       try {
-        const response = await loadResource(`/api/post/${id}`);
+        const response = await loadResource(`/api/posts/${id}`);
         setPost(response.data);
         setLoading(false);
       } catch (e) {
@@ -46,9 +46,9 @@ export const useBlogPost = (id?: string) => {
 
       // If id is present, update the post, otherwise save a new one
       if (id) {
-        await updateResource<BlogPost>(`/api/post/${id}`, post, authToken);
+        await updateResource<BlogPost>(`/api/posts/${id}`, post, authToken);
       } else {
-        await saveResource<BlogPost>('/api/post', post, authToken);
+        await saveResource<BlogPost>('/api/posts', post, authToken);
       }
       return post.id;
     } catch (e) {
