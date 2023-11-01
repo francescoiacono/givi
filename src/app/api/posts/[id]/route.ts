@@ -3,7 +3,7 @@ import { deleteResource, getResource, saveResource } from '@/firebase/actions';
 import { BlogPost } from '@/types';
 import {
   errorRequestHandler,
-  successRequestHandler,
+  successRequestHandler
 } from '@/utils/requestHandlers';
 import { adminApp } from '@/firebase/admin';
 

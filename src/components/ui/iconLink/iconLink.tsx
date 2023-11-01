@@ -15,7 +15,7 @@ export const IconLink: React.FC<IconProps> = ({
   href,
   src,
   alt,
-  ariaLabel,
+  ariaLabel
 }) => {
   const [isMounted, setIsMounted] = useState(false);
 

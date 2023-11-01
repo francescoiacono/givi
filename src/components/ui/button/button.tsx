@@ -2,7 +2,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   secondary?: boolean;
 }
 
-export const Button: React.FC<ButtonProps> = (props) => {
+export const Button: React.FC<ButtonProps> = props => {
   const { secondary } = props;
 
   return (

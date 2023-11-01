@@ -4,7 +4,7 @@ interface ClientErrorMessageProps {
 }
 export const ClientErrorMessage: React.FC<ClientErrorMessageProps> = ({
   children,
-  className,
+  className
 }) => {
   const errorMessage =
     typeof children === 'object' ? JSON.stringify(children) : children;

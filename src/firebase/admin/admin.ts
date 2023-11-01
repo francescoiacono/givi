@@ -18,7 +18,7 @@ const adminApp = () => {
   return admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
     databaseURL:
-      'https://gab-blog-eb7ed-default-rtdb.europe-west1.firebasedatabase.app',
+      'https://gab-blog-eb7ed-default-rtdb.europe-west1.firebasedatabase.app'
   });
 };
 

@@ -11,7 +11,7 @@ export const getAllResources = async <T>(
   const snapshot = await docRef.get();
 
   if (snapshot.exists()) {
-    snapshot.forEach((childSnapshot) => {
+    snapshot.forEach(childSnapshot => {
       data.push(childSnapshot.val());
     });
   }

@@ -1,7 +1,7 @@
 import { BlogPost } from '@/types';
 import { useEffect, useState } from 'react';
 import { useAuth, useResource } from '@/components/hooks';
-import { newBlogPost, updatedBlogPost } from '@/utils';
+import { utils } from '@/utils';
 
 export const useBlogPost = (id?: string) => {
   const [post, setPost] = useState<BlogPost | null>(null);
@@ -41,8 +41,8 @@ export const useBlogPost = (id?: string) => {
 
       // Create a new post object
       const post = id
-        ? updatedBlogPost(id, title, summary, content)
-        : newBlogPost(title, summary, content);
+        ? utils.updatedBlogPost(id, title, summary, content)
+        : utils.newBlogPost(title, summary, content);
 
       // If id is present, update the post, otherwise save a new one
       if (id) {

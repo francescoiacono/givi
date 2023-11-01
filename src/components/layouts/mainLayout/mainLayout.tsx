@@ -5,7 +5,7 @@ interface MainLayoutProps {
   children: React.ReactNode;
 }
 
-export const MainLayout: React.FC<MainLayoutProps> = (props) => {
+export const MainLayout: React.FC<MainLayoutProps> = props => {
   return (
     <Wrapper>
       <Navbar />

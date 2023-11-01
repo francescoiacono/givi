@@ -2,10 +2,8 @@
 
 import { useBlogPost, useResource } from '@/components/hooks';
 import { FlexCol, FlexRow } from '@/components/layouts';
-import { useEffect, useState } from 'react';
-import { BlogPost as BlogPostType } from '@/types';
 import { ClientErrorMessage } from '@/components/ui';
-import { formatDateLong } from '@/utils';
+import { utils } from '@/utils';
 import { PostOptions } from './postOptions';
 import parse from 'html-react-parser';
 
@@ -29,7 +27,7 @@ export const BlogPost: React.FC<BlogPostProps> = ({ postId }) => {
         <FlexCol>
           <h1 className='font-bold'>{post.title}</h1>
           <div>
-            {'Gabriele Vecchi'} • {formatDateLong(post.date)}
+            {'Gabriele Vecchi'} • {utils.formatDateLong(post.date)}
           </div>
         </FlexCol>
         <PostOptions id={postId} />

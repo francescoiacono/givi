@@ -16,8 +16,8 @@ export const useResource = () => {
     try {
       const response = await axios.post(url, data, {
         headers: {
-          Authorization: `Bearer ${token}`,
-        },
+          Authorization: `Bearer ${token}`
+        }
       });
       return response.data;
     } catch (error) {
@@ -29,8 +29,8 @@ export const useResource = () => {
     try {
       const response = await axios.put(url, data, {
         headers: {
-          Authorization: `Bearer ${token}`,
-        },
+          Authorization: `Bearer ${token}`
+        }
       });
       return response.data;
     } catch (error) {
@@ -42,8 +42,8 @@ export const useResource = () => {
     try {
       const response = await axios.delete(url, {
         headers: {
-          Authorization: `Bearer ${token}`,
-        },
+          Authorization: `Bearer ${token}`
+        }
       });
 
       return response.data;

@@ -39,7 +39,7 @@ export const Posts = () => {
       {loading ? (
         <p>Loading...</p>
       ) : posts && posts.length > 0 ? (
-        posts.map((post) => <PostItem key={post.id} blogPost={post} />)
+        posts.map(post => <PostItem key={post.id} blogPost={post} />)
       ) : (
         <p className='text-gray-400 italic'>Nothing to see here.</p>
       )}

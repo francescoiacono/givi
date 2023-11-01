@@ -7,11 +7,11 @@ const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'Gabriele Vecchi - Writer & Director',
-  description: 'Gabriele Vecchi is a director and writer.',
+  description: 'Gabriele Vecchi is a director and writer.'
 };
 
 export default function RootLayout({
-  children,
+  children
 }: {
   children: React.ReactNode;
 }) {

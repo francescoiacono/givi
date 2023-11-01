@@ -7,6 +7,6 @@ export const successRequestHandler = <T>(
   return NextResponse.json({
     statusCode,
     status: 'success',
-    data,
+    data
   });
 };

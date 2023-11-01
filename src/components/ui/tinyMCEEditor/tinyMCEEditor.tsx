@@ -9,7 +9,7 @@ interface TinyMCEEditorProps {
   initialValue?: string;
 }
 
-export const TinyMCEEditor: React.FC<TinyMCEEditorProps> = (props) => {
+export const TinyMCEEditor: React.FC<TinyMCEEditorProps> = props => {
   const [isMounted, setIsMounted] = useState(false);
   const { setEditorInstance } = useEditorInstance();
   const { initialValue } = props;

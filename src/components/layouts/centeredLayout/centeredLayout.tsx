@@ -5,7 +5,7 @@ interface CenteredLayoutProps {
 
 export const CenteredLayout: React.FC<CenteredLayoutProps> = ({
   children,
-  className = '',
+  className = ''
 }) => {
   return (
     <div

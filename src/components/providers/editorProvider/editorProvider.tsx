@@ -6,7 +6,7 @@ import {
   useContext,
   useEffect,
   useRef,
-  useState,
+  useState
 } from 'react';
 import { Editor as TinyMCE } from 'tinymce';
 

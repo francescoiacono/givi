@@ -7,6 +7,6 @@ export const errorRequestHandler = (
   return NextResponse.json({
     statusCode,
     status: 'error',
-    message,
+    message
   });
 };

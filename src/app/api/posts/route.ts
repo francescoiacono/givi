@@ -3,11 +3,9 @@ import { BlogPost } from '@/types';
 import { saveResource, getAllResources } from '@/firebase/actions';
 import {
   errorRequestHandler,
-  successRequestHandler,
+  successRequestHandler
 } from '@/utils/requestHandlers';
 import { adminApp } from '@/firebase/admin';
-
-//TODO: Add validation to requests
 
 export async function POST(request: NextRequest) {
   try {
@@ -50,11 +48,12 @@ export async function POST(request: NextRequest) {
 // Get all posts
 export async function GET(request: NextRequest) {
   try {
-    const response = await getAllResources<BlogPost>('posts/');
-    if (!response) {
+    const posts = await getAllResources<BlogPost>('posts/');
+
+    if (!posts) {
       return errorRequestHandler(404, 'No blog posts found');
     }
-    return successRequestHandler<BlogPost[]>(response, 200);
+    return successRequestHandler<BlogPost[]>(posts, 200);
   } catch (error) {
     return errorRequestHandler(500, 'Failed to get blog post');
   }

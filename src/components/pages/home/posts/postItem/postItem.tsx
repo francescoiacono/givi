@@ -1,6 +1,6 @@
 import { FlexCol, FlexRow } from '@/components/layouts';
 import { BlogPost } from '@/types';
-import { formateDateShort } from '@/utils';
+import { utils } from '@/utils';
 import { DeletePostButton, EditPostButton } from '@/components/shared';
 import Link from 'next/link';
 
@@ -19,7 +19,7 @@ export const PostItem: React.FC<PostItemProps> = ({ blogPost }) => {
             <FlexCol>
               <h3 className='truncate'>{title}</h3>
               <div className='flex max-h-8 gap-2 overflow-hidden'>
-                <p>{formateDateShort(date)}</p> <span>•</span>
+                <p>{utils.formateDateShort(date)}</p> <span>•</span>
                 <p>{summary}</p>
               </div>
             </FlexCol>

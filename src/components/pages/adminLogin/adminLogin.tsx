@@ -3,8 +3,8 @@
 import { useAuth } from '@/components/hooks';
 import { CenteredLayout } from '@/components/layouts';
 import { Button, ClientErrorMessage, Input } from '@/components/ui';
-import { isValidEmail, isValidPassword } from '@/utils';
-import { useEffect, useState } from 'react';
+import { utils } from '@/utils';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 export const AdminLogin = () => {
@@ -19,11 +19,11 @@ export const AdminLogin = () => {
     e.preventDefault();
 
     setError('');
-    if (!isValidEmail(email)) {
+    if (!utils.isValidEmail(email)) {
       setError('Please enter a valid email.');
       return;
     }
-    if (!isValidPassword(password)) {
+    if (!utils.isValidPassword(password)) {
       setError('Password must be at least 6 characters long.');
       return;
     }
@@ -51,7 +51,7 @@ export const AdminLogin = () => {
         <h1>Log in</h1>
         <Input
           autoComplete='email'
-          onChange={(e) => {
+          onChange={e => {
             setEmail(e.target.value);
           }}
           value={email}
@@ -62,7 +62,7 @@ export const AdminLogin = () => {
         <Input
           value={password}
           autoComplete='current-password'
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={e => setPassword(e.target.value)}
           id='password'
           type='password'
           label='Password'

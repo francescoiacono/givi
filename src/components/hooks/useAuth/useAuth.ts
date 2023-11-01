@@ -3,7 +3,7 @@ import {
   User,
   onAuthStateChanged,
   signInWithEmailAndPassword,
-  signOut,
+  signOut
 } from 'firebase/auth';
 import { useEffect, useState } from 'react';
 
@@ -22,7 +22,7 @@ export const useAuth = () => {
   };
 
   const logIn = (email: string, password: string) => {
-    return signInWithEmailAndPassword(auth, email, password).catch((error) => {
+    return signInWithEmailAndPassword(auth, email, password).catch(error => {
       throw new Error(
         'There was an error logging in. Are you using the right email or password?'
       );
@@ -30,7 +30,7 @@ export const useAuth = () => {
   };
 
   const logOut = () => {
-    return signOut(auth).catch((error) => {
+    return signOut(auth).catch(error => {
       throw new Error('There was an error logging out.');
     });
   };

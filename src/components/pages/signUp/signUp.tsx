@@ -17,11 +17,11 @@ const Page = () => {
     setError('');
     if (password1 === password2) {
       createUserWithEmailAndPassword(auth, email, password1)
-        .then((userCredential) => {
+        .then(userCredential => {
           const user = userCredential.user;
           console.log(user);
         })
-        .catch((error) => {
+        .catch(error => {
           const errorCode = error.code;
           const errorMessage = error.message;
           setError(`Error ${errorCode}: ${errorMessage}`);
@@ -38,7 +38,7 @@ const Page = () => {
             label='Email'
             id='email'
             type='text'
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={e => setEmail(e.target.value)}
           />
 
           <Input
@@ -46,7 +46,7 @@ const Page = () => {
             className='border border-gray-400 rounded-md'
             id='password'
             type='password'
-            onChange={(e) => setPassword1(e.target.value)}
+            onChange={e => setPassword1(e.target.value)}
           />
 
           <Input
@@ -54,7 +54,7 @@ const Page = () => {
             className='border border-gray-400 rounded-md'
             id='repeat'
             type='password'
-            onChange={(e) => setPassword2(e.target.value)}
+            onChange={e => setPassword2(e.target.value)}
           />
           <Button type='submit'>Sign up</Button>
         </FlexCol>
