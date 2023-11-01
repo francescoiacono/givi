@@ -7,11 +7,11 @@ import {
   Button,
   ClientErrorMessage,
   Input,
-  TinyMCEEditor
+  TinyMCEEditor,
 } from '@/components/ui';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { validateSummary, validateTitle } from '@/utils';
+import { utils } from '@/utils';
 import { MAX_SUMMARY_LENGTH, MAX_TITLE_LENGTH } from '@/utils/constants';
 
 interface PostEditor {
@@ -54,8 +54,8 @@ export const PostEditor: React.FC<PostEditor> = ({ id }) => {
     e.preventDefault();
 
     // Check input validation
-    const titleError = validateTitle(title);
-    const summaryError = validateSummary(summary);
+    const titleError = utils.validateTitle(title);
+    const summaryError = utils.validateSummary(summary);
 
     // Show error if any
     if (titleError || summaryError) {
@@ -94,7 +94,7 @@ export const PostEditor: React.FC<PostEditor> = ({ id }) => {
             label='Title*'
             value={title}
             maxLength={MAX_TITLE_LENGTH}
-            onChange={e => setTitle(e.target.value)}
+            onChange={(e) => setTitle(e.target.value)}
           />
           <Input
             type='text'
@@ -103,7 +103,7 @@ export const PostEditor: React.FC<PostEditor> = ({ id }) => {
             label='Summary'
             value={summary}
             maxLength={MAX_SUMMARY_LENGTH}
-            onChange={e => setSummary(e.target.value)}
+            onChange={(e) => setSummary(e.target.value)}
           />
           <TinyMCEEditor initialValue={editorContent} />
           <Button type='submit'>Save Post</Button>
