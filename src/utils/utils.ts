@@ -10,7 +10,7 @@ class Utils {
     const options: Intl.DateTimeFormatOptions = {
       year: 'numeric',
       month: 'long',
-      day: 'numeric'
+      day: 'numeric',
     };
 
     const formattedDate = Intl.DateTimeFormat('en', options).format(date);
@@ -25,7 +25,7 @@ class Utils {
     const options: Intl.DateTimeFormatOptions = {
       year: 'numeric',
       month: 'short',
-      day: 'numeric'
+      day: 'numeric',
     };
 
     const formattedDate = Intl.DateTimeFormat('en', options).format(date);
@@ -72,7 +72,7 @@ class Utils {
       summary: summary,
       title: title,
       content: content,
-      date: new Date()
+      date: new Date(),
     };
 
     return newPost;
@@ -90,7 +90,7 @@ class Utils {
       title: title,
       summary: summary,
       content: content,
-      date: new Date()
+      date: new Date(),
     };
 
     return updatedPost;
@@ -99,6 +99,18 @@ class Utils {
   // Strip HTML tags from string
   public stripHtmlTags = (input: string): string => {
     return input.replace(/<\/?[^>]+(>|$)/g, ' ').trim();
+  };
+
+  // Sort posts by date
+  public sortPostsByDate = (posts: BlogPost[]): BlogPost[] => {
+    const updatedPosts = posts.sort((a, b) => {
+      const dateA = new Date(a.date).getTime();
+      const dateB = new Date(b.date).getTime();
+
+      return dateB - dateA; // for descending order
+    });
+
+    return updatedPosts;
   };
 }
 

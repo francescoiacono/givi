@@ -3,9 +3,10 @@ import { BlogPost } from '@/types';
 import { saveResource, getAllResources } from '@/firebase/actions';
 import {
   errorRequestHandler,
-  successRequestHandler
+  successRequestHandler,
 } from '@/utils/requestHandlers';
 import { adminApp } from '@/firebase/admin';
+import { utils } from '@/utils';
 
 export async function POST(request: NextRequest) {
   try {
@@ -53,7 +54,10 @@ export async function GET(request: NextRequest) {
     if (!posts) {
       return errorRequestHandler(404, 'No blog posts found');
     }
-    return successRequestHandler<BlogPost[]>(posts, 200);
+
+    const sortedPosts = utils.sortPostsByDate(posts);
+
+    return successRequestHandler<BlogPost[]>(sortedPosts, 200);
   } catch (error) {
     return errorRequestHandler(500, 'Failed to get blog post');
   }
