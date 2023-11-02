@@ -10,7 +10,7 @@ class Utils {
     const options: Intl.DateTimeFormatOptions = {
       year: 'numeric',
       month: 'long',
-      day: 'numeric',
+      day: 'numeric'
     };
 
     const formattedDate = Intl.DateTimeFormat('en', options).format(date);
@@ -25,7 +25,7 @@ class Utils {
     const options: Intl.DateTimeFormatOptions = {
       year: 'numeric',
       month: 'short',
-      day: 'numeric',
+      day: 'numeric'
     };
 
     const formattedDate = Intl.DateTimeFormat('en', options).format(date);
@@ -74,6 +74,7 @@ class Utils {
       summary,
       -Date.now()
     );
+    console.log('NEw Post', newPost);
     return newPost;
   };
 

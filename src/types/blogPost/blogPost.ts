@@ -24,7 +24,7 @@ export class BlogPost {
     this.title = title;
     this.content = content;
     this.summary = summary;
-    this.date = Date.now();
+    this.date = date;
   }
 
   public getId(): string {

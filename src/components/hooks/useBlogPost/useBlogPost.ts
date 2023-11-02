@@ -21,7 +21,11 @@ export const useBlogPost = (id?: string) => {
       setError('');
       try {
         const response = await loadResource(`/api/posts/${id}`);
-        setPost(response.data);
+        let data = response.data;
+        if (data.date < 0) {
+          data.date = data.date * -1;
+        }
+        setPost(data);
         setLoading(false);
       } catch (e) {
         console.log(e);

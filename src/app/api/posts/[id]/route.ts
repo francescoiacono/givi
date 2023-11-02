@@ -26,8 +26,14 @@ export const GET = async (_req: NextRequest, { params }: Params) => {
       return errorRequestHandler(404, 'Blog post not found');
     }
 
+    let postData = data;
+
+    if (postData.date < 0) {
+      postData.date = postData.date * -1;
+    }
+
     // Return a success response
-    return successRequestHandler<BlogPost>(data, 200);
+    return successRequestHandler<BlogPost>(postData, 200);
   } catch (error) {
     // Return an error response
     return errorRequestHandler(500, 'Failed to retrieve blog post');

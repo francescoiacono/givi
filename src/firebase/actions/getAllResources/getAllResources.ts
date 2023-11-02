@@ -2,7 +2,7 @@ import { adminApp } from '@/firebase/admin';
 
 export const getAllResources = async <T>(
   basePath: string,
-  limit: number = 3,
+  limit: number = 10,
   lastKey?: number
 ): Promise<T[] | null> => {
   const db = adminApp().database();
@@ -12,19 +12,27 @@ export const getAllResources = async <T>(
     : db
         .ref(basePath)
         .orderByChild('date')
-        .startAfter(lastKey)
-        .limitToFirst(limit);
+        .startAt(lastKey)
+        .limitToFirst(limit + 1);
 
   const data: T[] = [];
 
   const snapshot = await docRef.get();
 
   if (snapshot.exists()) {
-    snapshot.forEach((childSnapshot) => {
+    snapshot.forEach(childSnapshot => {
       const postData = childSnapshot.val();
-      postData.date = -postData.date; // Convert back to positive
+      if (postData.date < 0) {
+        postData.date = -postData.date;
+      }
       data.push(postData);
     });
   }
+
+  if (lastKey && data.length > 0) {
+    data.shift(); // Remove the overlapped item
+  }
+
+  console.log('data: ', data);
   return data;
 };

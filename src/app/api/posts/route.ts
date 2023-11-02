@@ -3,7 +3,7 @@ import { BlogPost } from '@/types';
 import { saveResource, getAllResources } from '@/firebase/actions';
 import {
   errorRequestHandler,
-  successRequestHandler,
+  successRequestHandler
 } from '@/utils/requestHandlers';
 import { adminApp } from '@/firebase/admin';
 import { utils } from '@/utils';
@@ -61,8 +61,6 @@ export async function GET(request: NextRequest) {
     if (!posts) {
       return errorRequestHandler(404, 'No blog posts found');
     }
-
-    // const sortedPosts = utils.sortPostsByDate(posts);
 
     return successRequestHandler<BlogPost[]>(posts, 200);
   } catch (error) {
