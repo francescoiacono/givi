@@ -10,12 +10,14 @@ interface QuillEditorProps {
   initialValue?: string;
 }
 
+const ReactQuill = dynamic(() => import('react-quill'), { ssr: false }); // Prevents Quill from being rendered on the server-side
+
 export const QuillEditor = (props: QuillEditorProps) => {
   const { initialValue, className } = props;
   const { value, setValue } = useEditor();
-  const ReactQuill = dynamic(() => import('react-quill'), { ssr: false }); // Prevents Quill from being rendered on the server-side
 
   useEffect(() => {
+    console.log('rerendering');
     if (initialValue) {
       setValue(initialValue);
     }
