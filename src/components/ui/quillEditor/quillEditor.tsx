@@ -2,7 +2,7 @@
 
 import { useEditor } from '@/components/providers';
 import { useEffect } from 'react';
-import ReactQuill from 'react-quill';
+import dynamic from 'next/dynamic';
 import 'react-quill/dist/quill.snow.css';
 
 interface QuillEditorProps {
@@ -13,6 +13,7 @@ interface QuillEditorProps {
 export const QuillEditor = (props: QuillEditorProps) => {
   const { initialValue, className } = props;
   const { value, setValue } = useEditor();
+  const ReactQuill = dynamic(() => import('react-quill'), { ssr: false }); // Prevents Quill from being rendered on the server-side
 
   useEffect(() => {
     if (initialValue) {
