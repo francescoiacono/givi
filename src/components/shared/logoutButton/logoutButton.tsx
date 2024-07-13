@@ -33,7 +33,7 @@ export const LogoutButton = () => {
           <p>
             Hey, <span className='underline'>{user.email}!</span>
           </p>
-          <Button secondary onClick={handleLogout}>
+          <Button variant='secondary' onClick={handleLogout}>
             Log out
           </Button>
         </>

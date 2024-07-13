@@ -29,7 +29,7 @@ export const DeletePostButton: React.FC<DeletePostButtonProps> = ({ id }) => {
   };
 
   return user ? (
-    <Button secondary onClick={handleDelete} className='text-sm'>
+    <Button variant='secondary' onClick={handleDelete} className='text-sm'>
       Delete
     </Button>
   ) : null;

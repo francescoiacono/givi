@@ -9,13 +9,15 @@ interface IconProps {
   src: string;
   alt: string;
   ariaLabel: string;
+  openInNewTab?: boolean;
 }
 
 export const IconLink: React.FC<IconProps> = ({
   href,
   src,
   alt,
-  ariaLabel
+  ariaLabel,
+  openInNewTab
 }) => {
   const [isMounted, setIsMounted] = useState(false);
 
@@ -32,6 +34,7 @@ export const IconLink: React.FC<IconProps> = ({
         passHref
         aria-label={ariaLabel}
         className='w-16 h-16 flex items-center justify-center'
+        target={openInNewTab ? '_blank' : '_self'}
       >
         <Image src={src} height={32} width={32} alt={alt} />
       </Link>

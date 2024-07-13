@@ -17,8 +17,7 @@ const adminApp = () => {
   console.log(`>>> Initializing Firebase Admin App`);
   return admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
-    databaseURL:
-      'https://gab-blog-eb7ed-default-rtdb.europe-west1.firebasedatabase.app'
+    databaseURL: process.env.FIREBASE_DATABASE_URL
   });
 };
 

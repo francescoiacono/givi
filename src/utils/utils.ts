@@ -74,7 +74,6 @@ class Utils {
       summary,
       -Date.now()
     );
-    console.log('NEw Post', newPost);
     return newPost;
   };
 
@@ -83,9 +82,10 @@ class Utils {
     id: string,
     title: string,
     summary: string,
-    content: string
+    content: string,
+    date: number
   ): BlogPost => {
-    const updatedPost = new BlogPost(id, title, content, summary, -Date.now());
+    const updatedPost = new BlogPost(id, title, content, summary, date * -1);
     return updatedPost;
   };
 

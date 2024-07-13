@@ -12,6 +12,7 @@ export const BlogHeader = () => {
             src='/assets/icons/twitter/logo.svg'
             alt='Twitter'
             ariaLabel='Visit Twitter Profile'
+            openInNewTab
           />
         </ul>
         <div className='text-center flex-1 max-w-sm mx-auto'>

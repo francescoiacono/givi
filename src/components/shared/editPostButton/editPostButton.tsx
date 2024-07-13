@@ -17,7 +17,7 @@ export const EditPostButton: React.FC<EditPostButtonProps> = ({ id }) => {
   };
 
   return user ? (
-    <Button secondary onClick={handleEdit}>
+    <Button variant='secondary' onClick={handleEdit}>
       Edit Post
     </Button>
   ) : null;

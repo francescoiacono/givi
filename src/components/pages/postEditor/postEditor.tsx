@@ -2,17 +2,17 @@
 
 import { useAuth, useBlogPost } from '@/components/hooks';
 import { FlexCol } from '@/components/layouts';
-import { useEditorInstance } from '@/components/providers';
 import {
   Button,
   ClientErrorMessage,
   Input,
-  TinyMCEEditor,
+  QuillEditor
 } from '@/components/ui';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { utils } from '@/utils';
 import { MAX_SUMMARY_LENGTH, MAX_TITLE_LENGTH } from '@/utils/constants';
+import { useEditor } from '@/components/providers';
 
 interface PostEditor {
   id?: string;
@@ -25,31 +25,33 @@ export const PostEditor: React.FC<PostEditor> = ({ id }) => {
   const [error, setError] = useState<string>('');
   const { user } = useAuth();
   const { post, savePost, loading } = useBlogPost(id || '');
-  const { editorRef, editorReady } = useEditorInstance();
+  const { value } = useEditor();
   const router = useRouter();
 
-  useEffect(() => {
-    // Load post body if it exists
-    const loadPostBody = async () => {
-      try {
-        if (post) {
-          const { title, summary, content } = post;
-          if (editorRef.current && editorReady) {
-            setTitle(title);
-            setSummary(summary);
-            setEditorContent(content);
-          }
-        }
-      } catch (error) {
-        setError(error as Error['message']);
+  /**
+   * Loads the post body into the editor.
+   * If a post is provided, it sets the title, summary, and content of the editor.
+   * If the editor is ready, it updates the state with the post data.
+   * If an error occurs, it sets the error state with the error message.
+   */
+  const loadPostBody = useCallback(() => {
+    try {
+      if (post) {
+        const { title, summary, content } = post;
+        setTitle(title);
+        setSummary(summary);
+        setEditorContent(content);
       }
-    };
-
-    if (editorReady && post) {
-      loadPostBody();
+    } catch (error) {
+      setError(error as Error['message']);
     }
-  }, [editorReady, editorRef, id, post]);
+  }, [post]);
 
+  /**
+   * Submits the post form.
+   *
+   * @param e - The form event.
+   */
   const submitPost = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -64,24 +66,24 @@ export const PostEditor: React.FC<PostEditor> = ({ id }) => {
     }
 
     try {
-      // If editor is ready, get the content and save it in DB
-      if (editorRef.current && editorReady) {
-        // Retrieve update content from editor
-        const content = editorRef.current.getContent();
-        // Save post to DB
-        const post = await savePost(title, summary, content);
-        router.push(`/post/${post}`);
-      } else {
-        setError('Editor is not ready. Please try again.');
-      }
+      // Retrieve update content from editor
+      const content = value;
+      // Save post to DB
+      const post = await savePost(title, summary, content);
+      router.push(`/post/${post}`);
     } catch (error) {
       console.error(error);
     }
   };
 
-  if (loading) return <h1>Loading...</h1>;
+  // Load post body when the post is ready
+  useEffect(() => {
+    loadPostBody();
+  }, [post, loadPostBody]);
 
-  return user ? (
+  // Show loading message
+
+  return user && !loading ? (
     <main>
       {error && <ClientErrorMessage>{error}</ClientErrorMessage>}
       <form onSubmit={submitPost}>
@@ -94,7 +96,7 @@ export const PostEditor: React.FC<PostEditor> = ({ id }) => {
             label='Title*'
             value={title}
             maxLength={MAX_TITLE_LENGTH}
-            onChange={(e) => setTitle(e.target.value)}
+            onChange={e => setTitle(e.target.value)}
           />
           <Input
             type='text'
@@ -103,16 +105,16 @@ export const PostEditor: React.FC<PostEditor> = ({ id }) => {
             label='Summary'
             value={summary}
             maxLength={MAX_SUMMARY_LENGTH}
-            onChange={(e) => setSummary(e.target.value)}
+            onChange={e => setSummary(e.target.value)}
           />
-          <TinyMCEEditor initialValue={editorContent} />
-          <Button type='submit'>Save Post</Button>
+          <QuillEditor initialValue={editorContent || ''} />
+          <Button className='mt-12' type='submit'>
+            Save Post
+          </Button>
         </FlexCol>
       </form>
     </main>
   ) : (
-    <ClientErrorMessage>
-      You are not authenticated. Please sign in and try again.
-    </ClientErrorMessage>
+    <h1>Loading...</h1>
   );
 };

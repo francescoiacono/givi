@@ -32,7 +32,5 @@ export const getAllResources = async <T>(
   if (lastKey && data.length > 0) {
     data.shift(); // Remove the overlapped item
   }
-
-  console.log('data: ', data);
   return data;
 };

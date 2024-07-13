@@ -2,71 +2,82 @@
 
 import { useResource } from '@/components/hooks';
 import { PostItem } from './postItem';
-import { useEffect, useState } from 'react';
+import { memo, useCallback, useEffect, useState } from 'react';
 import { BlogPost } from '@/types';
 import { Button, ClientErrorMessage } from '@/components/ui';
 import { FlexCol } from '@/components/layouts';
 import { REQ_LIMIT } from '@/utils/constants';
+import useSWR from 'swr';
 
-export const Posts = () => {
+export const PostsComponent = () => {
   const { loadResource } = useResource();
-  const [isMounted, setIsMounted] = useState<boolean>(false);
   const [posts, setPosts] = useState<BlogPost[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string>('');
   const [lastKey, setLastKey] = useState<number | null>(null);
+  const [hasMorePosts, setHasMorePosts] = useState<boolean>(true);
 
-  const loadPosts = async (key?: number) => {
-    setLoading(true);
-    try {
-      const res = await loadResource(
-        `/api/posts?limit=${REQ_LIMIT}${key ? `&lastKey=${key}` : ''}`
-      );
+  /**
+   * Returns the URL for fetching posts.
+   * @param key - The last key of the previous fetch, if available.
+   * @returns The URL string for fetching posts.
+   */
+  const getUrl = (key: number | null) =>
+    `/api/posts?limit=${REQ_LIMIT}${key ? `&lastKey=${key}` : ''}`;
 
-      if (res) {
-        setPosts((prevPosts) => [...prevPosts, ...res.data]);
-        setLoading(false);
+  const { data, error } = useSWR(
+    'recentPosts',
+    () => loadResource(getUrl(lastKey)),
+    {
+      revalidateOnFocus: false
+    }
+  );
 
-        // Update lastKey if posts are returned
-        if (res.data.length > 0) {
-          const lastPost = res.data[res.data.length - 1];
-          setLastKey(-lastPost.date);
-        }
+  useEffect(() => {
+    // Update posts and lastKey when data is available
+    if (data && data.data) {
+      setPosts(data.data);
+      if (data.data.length > 0) {
+        const lastPost = data.data[data.data.length - 1];
+        setLastKey(-lastPost.date);
       }
-    } catch (error) {
-      setError(error as Error['message']);
-      setLoading(false);
     }
-  };
+  }, [data]);
 
-  // TODO: Fix this hacky solution, posts component is being rendered twice, needs further investigation
+  /**
+   * Loads more posts from the specified URL and updates the state with the new posts.
+   * @returns A promise that resolves when the posts are loaded and the state is updated.
+   */
+  const loadMorePosts = useCallback(async () => {
+    const res = await loadResource(getUrl(lastKey));
+    if (res) {
+      setPosts(prevPosts => [...prevPosts, ...res.data]);
 
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
+      // Update the last key
+      if (res.data.length > 0) {
+        const lastPost = res.data[res.data.length - 1];
+        setLastKey(-lastPost.date);
+      }
 
-  useEffect(() => {
-    if (!isMounted) {
-      setIsMounted(true);
-    } else {
-      loadPosts();
+      // Check if the number of posts returned is less than the request limit
+      if (res.data.length < REQ_LIMIT) {
+        setHasMorePosts(false);
+      }
     }
-  }, [isMounted]);
+  }, [lastKey, loadResource]);
 
   if (error) return <ClientErrorMessage>{error}</ClientErrorMessage>;
 
   return (
     <FlexCol className='mt-4 w-full ml-4'>
       <h2>Recent Posts</h2>
-      {loading ? (
+      {!data ? (
         <p>Loading...</p>
-      ) : posts && posts.length > 0 ? (
+      ) : posts.length > 0 ? (
         <>
-          {posts.map((post) => (
+          {posts.map(post => (
             <PostItem key={post.id} blogPost={post} />
           ))}
-          {lastKey && (
-            <Button secondary onClick={() => loadPosts(lastKey)}>
+          {lastKey && hasMorePosts && (
+            <Button variant='secondary' onClick={loadMorePosts}>
               Load More
             </Button>
           )}
@@ -77,3 +88,8 @@ export const Posts = () => {
     </FlexCol>
   );
 };
+
+const Posts = memo(PostsComponent);
+Posts.displayName = 'Posts';
+
+export { Posts };
