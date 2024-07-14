@@ -4,6 +4,7 @@ import { useEditor } from '@/components/providers';
 import { useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import 'react-quill/dist/quill.snow.css';
+import { quillConfig } from './config';
 
 interface QuillEditorProps {
   className?: string;
@@ -17,7 +18,6 @@ export const QuillEditor = (props: QuillEditorProps) => {
   const { value, setValue } = useEditor();
 
   useEffect(() => {
-    console.log('rerendering');
     if (initialValue) {
       setValue(initialValue);
     }
@@ -38,6 +38,7 @@ export const QuillEditor = (props: QuillEditorProps) => {
       className={className || 'h-72 w-full'}
       theme='snow'
       value={value}
+      modules={quillConfig.modules}
       onChange={handleChange}
     />
   );

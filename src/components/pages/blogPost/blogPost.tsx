@@ -22,15 +22,16 @@ export const BlogPost: React.FC<BlogPostProps> = ({ postId }) => {
     );
 
   return (
-    <main>
+    <main className='ql-editor'>
       <FlexRow>
-        <FlexCol>
-          <h1 className='font-bold'>{post.title}</h1>
-          <div>
-            {'Gabriele Vecchi'} • {utils.formatDateLong(post.date)}
+        <div className='flex flex-col gap-2 w-full'>
+          <div className='flex w-full justify-between'>
+            <p>{utils.formatDateLong(post.date)}</p>
+            <PostOptions id={postId} />
           </div>
-        </FlexCol>
-        <PostOptions id={postId} />
+          <h1 className='font-bold'>{post.title}</h1>
+          {post.summary && <h2>{post.summary}</h2>}
+        </div>
       </FlexRow>
       <div className='mt-4 w-full border-b border-gray-400'></div>
       <FlexCol>
