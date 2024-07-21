@@ -22,7 +22,7 @@ export const DeletePostButton: React.FC<DeletePostButtonProps> = ({ id }) => {
     try {
       const token = await user.getIdToken();
       await deleteResource(`/api/posts/${id}`, token);
-      router.push('/');
+      router.refresh();
     } catch (error) {
       throw new Error(error as Error['message']);
     }
