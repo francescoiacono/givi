@@ -4,7 +4,7 @@ import { useResource } from '@/components/hooks';
 import { PostItem } from './postItem';
 import { memo, useCallback, useEffect, useState } from 'react';
 import { BlogPost } from '@/types';
-import { Button, ClientErrorMessage } from '@/components/ui';
+import { Button, CircularLoading, ClientErrorMessage } from '@/components/ui';
 import { FlexCol } from '@/components/layouts';
 import { REQ_LIMIT } from '@/utils/constants';
 import useSWR from 'swr';
@@ -20,16 +20,12 @@ export const PostsComponent = () => {
    * @param key - The last key of the previous fetch, if available.
    * @returns The URL string for fetching posts.
    */
-  const getUrl = (key: number | null) =>
+  const getUrl = (key?: number | null) =>
     `/api/posts?limit=${REQ_LIMIT}${key ? `&lastKey=${key}` : ''}`;
 
-  const { data, error } = useSWR(
-    'recentPosts',
-    () => loadResource(getUrl(lastKey)),
-    {
-      revalidateOnFocus: false
-    }
-  );
+  const { data, error } = useSWR('recentPosts', () => loadResource(getUrl()), {
+    revalidateOnFocus: false
+  });
 
   useEffect(() => {
     // Update posts and lastKey when data is available
@@ -70,7 +66,7 @@ export const PostsComponent = () => {
     <FlexCol className='mt-4 w-full ml-4'>
       <h2>Recent Posts</h2>
       {!data ? (
-        <p>Loading...</p>
+        <CircularLoading />
       ) : posts.length > 0 ? (
         <>
           {posts.map(post => (

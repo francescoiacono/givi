@@ -1,7 +1,7 @@
 'use client';
 
 import { useAuth } from '@/components/hooks';
-import { Button, ClientErrorMessage } from '@/components/ui';
+import { Button, CircularLoading, ClientErrorMessage } from '@/components/ui';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
@@ -41,6 +41,6 @@ export const LogoutButton = () => {
       {error && <ClientErrorMessage>{error}</ClientErrorMessage>}
     </>
   ) : (
-    <p>Loading...</p>
+    <CircularLoading />
   );
 };

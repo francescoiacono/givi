@@ -2,7 +2,12 @@
 
 import { useAuth } from '@/components/hooks';
 import { CenteredLayout } from '@/components/layouts';
-import { Button, ClientErrorMessage, Input } from '@/components/ui';
+import {
+  Button,
+  CircularLoading,
+  ClientErrorMessage,
+  Input
+} from '@/components/ui';
 import { utils } from '@/utils';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -76,6 +81,6 @@ export const AdminLogin = () => {
       )}
     </CenteredLayout>
   ) : (
-    <p>Loading...</p>
+    <CircularLoading />
   );
 };

@@ -4,6 +4,7 @@ import { useAuth, useBlogPost } from '@/components/hooks';
 import { FlexCol } from '@/components/layouts';
 import {
   Button,
+  CircularLoading,
   ClientErrorMessage,
   Input,
   QuillEditor
@@ -115,6 +116,6 @@ export const PostEditor: React.FC<PostEditor> = ({ id }) => {
       </form>
     </main>
   ) : (
-    <h1>Loading...</h1>
+    <CircularLoading />
   );
 };

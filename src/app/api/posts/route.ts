@@ -6,8 +6,13 @@ import {
   successRequestHandler
 } from '@/utils/requestHandlers';
 import { adminApp } from '@/firebase/admin';
-import { utils } from '@/utils';
 
+/**
+ * Handles the POST request for creating a new blog post.
+ *
+ * @param request - The NextRequest object representing the incoming request.
+ * @returns A Promise that resolves to a success response if the blog post is added successfully, or an error response if there is an issue.
+ */
 export async function POST(request: NextRequest) {
   try {
     // Get the token from the request headers
@@ -28,35 +33,32 @@ export async function POST(request: NextRequest) {
       return errorRequestHandler(401, 'Invalid token');
     }
 
-    // Get request body
     const data: BlogPost = await request.json();
 
     // Save Blog post into DB
     await saveResource<BlogPost>('posts/', data.id, data);
 
-    // Return a success response
     return successRequestHandler<string>(
-      'Sucessfully Added Blog Post to DB',
+      'Successfully Added Blog Post to DB',
       200
     );
   } catch (error) {
     console.log(error);
-    // Return an error response
     return errorRequestHandler(500, 'Failed to add blog post');
   }
 }
 
-// Get all posts
+/**
+ * Handles the GET request for retrieving blog posts.
+ * @param request - The NextRequest object representing the incoming request.
+ * @returns A Promise that resolves to the response for the GET request.
+ */
 export async function GET(request: NextRequest) {
   try {
-    const limit = request.nextUrl.searchParams.get('limit') || 3;
-    const lastKey = request.nextUrl.searchParams.get('lastKey') || undefined;
+    const limit = Number(request.nextUrl.searchParams.get('limit'));
+    const lastKey = Number(request.nextUrl.searchParams.get('lastKey'));
 
-    const posts = await getAllResources<BlogPost>(
-      'posts/',
-      Number(limit),
-      Number(lastKey)
-    );
+    const posts = await getAllResources<BlogPost>('posts/', limit, lastKey);
 
     if (!posts) {
       return errorRequestHandler(404, 'No blog posts found');

@@ -2,9 +2,9 @@
 
 import { useEditor } from '@/components/providers';
 import { useEffect } from 'react';
+import { quillConfig } from './config';
 import dynamic from 'next/dynamic';
 import 'react-quill/dist/quill.snow.css';
-import { quillConfig } from './config';
 
 interface QuillEditorProps {
   className?: string;
