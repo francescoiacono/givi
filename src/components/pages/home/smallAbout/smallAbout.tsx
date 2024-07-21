@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 export const SmallAbout = () => {
   return (
-    <FlexCol className='w-[14rem] flex-auto'>
+    <FlexCol className='lg:w-[14rem] md:w-full'>
       <Image
         src='/assets/images/avatar.png'
         width={64}

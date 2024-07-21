@@ -17,7 +17,7 @@ export const PostItem: React.FC<PostItemProps> = ({ blogPost }) => {
         <FlexRow className='justify-between items-center'>
           <Link href={`post/${id}`} className='flex-1 hover:underline'>
             <FlexCol>
-              <h3 className='truncate'>{title}</h3>
+              <h3 className='whitespace-pre-wrap'>{title}</h3>
               {summary && <h4 className='text-sm'>{summary}</h4>}
               <p className='text-sm text-gray-700'>
                 {utils.formateDateShort(date)}

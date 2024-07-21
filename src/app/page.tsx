@@ -1,12 +1,7 @@
-import { MainLayout } from '@/components/layouts';
 import { Home } from '@/components/pages';
 
 const Page = () => {
-  return (
-    <MainLayout>
-      <Home />
-    </MainLayout>
-  );
+  return <Home />;
 };
 
 export default Page;

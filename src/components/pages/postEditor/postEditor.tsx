@@ -85,7 +85,7 @@ export const PostEditor: React.FC<PostEditor> = ({ id }) => {
   // Show loading message
 
   return user && !loading ? (
-    <main>
+    <main className='p-2'>
       {error && <ClientErrorMessage>{error}</ClientErrorMessage>}
       <form onSubmit={submitPost}>
         <FlexCol>
@@ -108,10 +108,12 @@ export const PostEditor: React.FC<PostEditor> = ({ id }) => {
             maxLength={MAX_SUMMARY_LENGTH}
             onChange={e => setSummary(e.target.value)}
           />
-          <QuillEditor initialValue={editorContent || ''} />
-          <Button className='mt-12' type='submit'>
-            Save Post
-          </Button>
+          <div className='flex flex-col gap-24 md:gap-16 lg:gap-14 items-start'>
+            <QuillEditor initialValue={editorContent || ''} />
+            <Button className='z-50' type='submit'>
+              Save Post
+            </Button>
+          </div>
         </FlexCol>
       </form>
     </main>

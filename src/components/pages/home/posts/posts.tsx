@@ -63,7 +63,7 @@ export const PostsComponent = () => {
   if (error) return <ClientErrorMessage>{error}</ClientErrorMessage>;
 
   return (
-    <FlexCol className='mt-4 w-full ml-4'>
+    <FlexCol className='mt-4 w-full'>
       <h2>Recent Posts</h2>
       {!data ? (
         <CircularLoading />

@@ -2,7 +2,7 @@
 
 import { useBlogPost, useResource } from '@/components/hooks';
 import { FlexCol, FlexRow } from '@/components/layouts';
-import { ClientErrorMessage } from '@/components/ui';
+import { CircularLoading, ClientErrorMessage } from '@/components/ui';
 import { utils } from '@/utils';
 import { PostOptions } from './postOptions';
 import parse from 'html-react-parser';
@@ -14,7 +14,7 @@ interface BlogPostProps {
 export const BlogPost: React.FC<BlogPostProps> = ({ postId }) => {
   const { post, error, loading } = useBlogPost(postId);
 
-  if (loading) return <h1>Loading...</h1>;
+  if (loading) return <CircularLoading />;
 
   if (!post)
     return (

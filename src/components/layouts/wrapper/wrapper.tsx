@@ -4,5 +4,11 @@ interface WrapperProps {
 }
 
 export const Wrapper: React.FC<WrapperProps> = ({ children, className }) => {
-  return <div className={`${className} py-4 max-w-5xl m-auto`}>{children}</div>;
+  if (!className) className = '';
+
+  return (
+    <div className={`w-full px-4 sm:px-10 md:px-20 lg:px-64 ${className}`}>
+      {children}
+    </div>
+  );
 };

@@ -28,16 +28,14 @@ export const IconLink: React.FC<IconProps> = ({
   if (!isMounted) return null;
 
   return (
-    <li>
-      <Link
-        href={href}
-        passHref
-        aria-label={ariaLabel}
-        className='w-16 h-16 flex items-center justify-center'
-        target={openInNewTab ? '_blank' : '_self'}
-      >
-        <Image src={src} height={32} width={32} alt={alt} />
-      </Link>
-    </li>
+    <Link
+      href={href}
+      passHref
+      aria-label={ariaLabel}
+      className='w-16 h-16 flex items-center justify-center'
+      target={openInNewTab ? '_blank' : '_self'}
+    >
+      <Image src={src} height={32} width={32} alt={alt} />
+    </Link>
   );
 };
